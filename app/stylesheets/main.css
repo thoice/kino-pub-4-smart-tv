@@ -1,0 +1,255 @@
+/* Main bg              #2f373e */
+/* Selected main bg     #44505a */
+/* Header bg    rgba(57, 66, 74, 0.5); */
+/* Text                 #ffffc8  */
+/* Spinner Text         #ffffc8 */
+/* Spinner Button Text  #ffffc8 */
+/* Danger Text          #ff7575 */
+
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+	display: block;
+}
+
+div, img, section, header, footer {
+	box-sizing: border-box;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	font: 18pt Helvetica, Arial, sans-serif;
+	width: 100%;
+	height: 100%;
+	background: #2f373e;
+	color: #ffffc8;
+}
+
+.scene {
+	background: #2f373e;
+	top: 50px;
+	left: 0;
+	width: 1280px;
+	height: 600px;
+}
+
+#wrapper {
+	width: 100%;
+	height: 100%;
+}
+
+#scene_wrapper > .hidden,
+#player_wrapper.hidden,
+#footer.hidden,
+#header.hidden,
+#debug_wrapper.hidden,
+#spinner_wrapper.hidden {
+	display: none;
+}
+
+#player_wrapper {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #2f373e;
+	z-index: 10;
+}
+
+.button {
+    font-size: 24px;
+    margin-top: 1em;
+    padding: 15px;
+    background-color: transparent;
+    color: #ffffc8;
+    border: 5px solid #ffffc8;
+}
+
+.button:hover {
+    background-color: #ffffc8;
+    color: #2f373e;
+}
+
+.button.disabled {
+    color: grey;
+}
+
+
+
+/* Header
+-----------------------------------------------------------------------------*/
+.header {
+	height: 50px;
+	width: 1280px;
+	padding-left: 13px;
+	font-size: 17pt;
+	background: rgba(57, 66, 74, 0.5);
+	position: relative;
+    /*top: 0;*/
+	z-index: 100;
+}
+/* Middle -------------------------------------------------------------------*/
+#scene_wrapper {width: 1280px; height: 600px;}
+
+/* Grid*/
+#grid_scene {display: table;}
+#pager_left, #pager_right {display: table-cell; width: 90px; font-size: 5em; text-align: center;}
+.pager-wrapper span {
+	width: 60px;
+	height: 100px;
+	display: block;
+	line-height: 85px;
+	text-align: center;
+	margin: auto;
+	border-radius: 5px;
+}
+
+.pager-wrapper.available:hover {
+	cursor: pointer;
+}
+
+.pager-wrapper.enabled:hover span {
+	background-color: #636e77;
+	color: #2f373e;
+}
+
+#grid_scene_content {width: 1100px; margin: 0 auto; height: 600px; text-align: center; }
+.grid-item {
+	display: inline-block;
+	background: #888;
+	height: 280px;
+	width: 185px;
+	padding: 5px;
+	margin: 8px 15px;
+	background-size: 100% auto;
+	border: 5px solid #888;
+    position: relative;
+}
+
+.tl, .tr, .bl, .br, .mdl {
+    position: absolute;
+    /* TODO enable when images are enabled */
+    /*display: none;*/
+}
+
+.grid-item:hover .tl,
+.grid-item:hover .tr,
+.grid-item:hover .bl,
+.grid-item:hover .br,
+.grid-item:hover .mdl {
+    display: block;
+}
+
+.tl {top: 0; left: 0;}
+
+.tr {top: 0;right: 0;}
+
+.bl {bottom: 0;left: 0;}
+
+.br {bottom: 0;right: 0;}
+
+.mdl {line-height: 280px; text-align: center; width: 100%; }
+
+.grid-item:hover {
+	border: 10px solid #ffff00;
+}
+
+/* Info */
+.info-poster {
+	max-height: 550px;
+	float: left;
+	margin: 1em;
+}
+
+#info_scene {
+    height: 600px;
+    overflow: hidden;
+}
+
+#info_description, #info_videos {
+    float: left;
+    padding: 0.5em;
+    height: 600px;
+}
+
+#info_description {
+    width: 65%;
+    background-color: #44505a;
+}
+
+.info-title {
+    font-size: 1.5em;
+    color: #c8ffff;
+}
+
+.info-header {
+    color: #c8ffff;
+    float: left;
+    padding-right: 5px;
+}
+
+.label-danger {
+    color: #ff7575;
+}
+
+.video-row .button {
+    margin: 5px;
+}
+
+/* Footer
+-----------------------------------------------------------------------------*/
+.footer {
+	width: 1280px;
+	height: 50px;
+	background: rgba(57, 66, 74, 0.5);
+	position: absolute;
+	bottom: 0;
+	z-index: 100;
+}
+
+#debug_wrapper {
+	background-color: rgba(50, 50, 50, 0.95);
+	width: 50%;
+	height: 60%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: #ffffff;
+	font-size: 10pt;
+	padding: 0.5em;
+	overflow: hidden;
+	z-index: 9999;
+}
+
+.debug-item {
+	display: block;
+}
+
+#spinner_wrapper {
+	width: 100%;
+	height: 100%;
+	background: #26367f;
+	background: radial-gradient(ellipse at center, #26367f 0%, #2f373e 99%);
+	z-index: 999;
+	position: absolute;
+}
+
+#spinner {
+	color: #ffffc8;
+    width: 70vw;
+    margin-left: auto;
+    margin-right: auto;
+}

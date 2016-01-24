@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Kino.pub for smart tv</title>
+		<script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Widget.js"></script>
+		<script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
+        <script type="text/javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
+        <script type="text/javascript" src="app/javascript/debug.js"></script>
+
+        <!-- Scripts load after everything -->
+        <script type="text/javascript" src="app/javascript/grid.js"></script>
+        <script type="text/javascript" src="app/javascript/info.js"></script>
+        <script type="text/javascript" src="app/javascript/player.js"></script>
+        <script type="text/javascript" src="app/javascript/kinopub.js"></script>
+        <script type="text/javascript" src="app/javascript/main.js"></script>
+
+        <!-- styles -->
+        <link rel="stylesheet" href="app/stylesheets/main.css" type="text/css">
+		<!-- TODO: Plugins -->
+	</head>
+
+	<body onload="Main.onLoad();" onunload="Main.onUnload();">
+        <div id="debug_wrapper" class="hidden"></div>
+        <div id="spinner_wrapper" class=""><div id="spinner">&nbsp;</div></div>
+        <div id="wrapper">
+            <header id="header" class="header">&nbsp;</header>
+            <section id="scene_wrapper">
+                <div id="grid_scene" class="scene hidden">
+                    <div id="pager_left" class="pager-wrapper" data-pagetogo="" data-handler="gotoPage"><span>&lsaquo;</span></div>
+                    <div id="grid_scene_content">
+                        <div class="grid-item" style="background-image: url('https://media.service-kp.com/poster/item/medium/8983.jpg');"></div>
+                    </div>
+                    <div id="pager_right" class="pager-wrapper" data-pagetogo="" data-handler="gotoPage"><span>&rsaquo;</span></div>
+                </div>
+                <div id="info_scene" class="scene hidden">
+                    <div id="info_description"></div>
+                    <div id="info_videos"></div>
+                </div>
+                <!-- info -->
+            </section>
+            <!-- menu -->
+            <div id="player_wrapper" class="hidden">
+                <div id="player_container">&nbsp;</div>
+                <!--div id="player_overlay_container">
+                    <span id="player_overlay_title_info"></span>
+                    <span id="player_overlay_time_info"></span>
+                </div-->
+            </div>
+            <footer id="footer" class="footer">
+                <strong>Footer:</strong>Help line help line
+            </footer>
+        </div>
+	</body>
+</html>
