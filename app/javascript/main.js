@@ -4,7 +4,6 @@ var tvKey = new Common.API.TVKeyValue();
 var Main =
 {
     apier: null,
-    widget: new Common.API.Widget(),
     scenes: {},
     activeScene: null,
     focusStack: []
@@ -113,6 +112,15 @@ Main.pushToFocusStack = function(scene, element)
     );
 };
 
+Main.popFromfocusStack = function()
+{
+    if (Main.focusStack.length > 0) {
+        return Main.focusStack.pop();
+    } else {
+        return null;
+    }
+};
+
 Main.getActiveScene = function()
 {
     return Main.scenes[Main.activeScene];
@@ -158,6 +166,13 @@ Main.keyDown = function()
         return;
     }
 
+    if (Main[handlerName] !== undefined) {
+        event.preventDefault();
+        event.stopPropagation();
+        Main[handlerName](element, event);
+        return;
+    }
+
     log("Key pressed: " + keyCode);
 
     switch(keyCode)
@@ -170,5 +185,17 @@ Main.keyDown = function()
         default:
             log("Unhandled key");
             break;
+    }
+};
+
+Main.onKeyReturn = function(element, event)
+{
+    // TODO add handler per scene, so it can destroy player and reset header/footer
+    var prevScene = Main.popFromfocusStack();
+    if (prevScene && prevScene['scene'] !== undefined && prevScene['scene']['id'] !== undefined) {
+        Main.showScene(prevScene['scene']['id']);
+        if (prevScene['element'] !== undefined) {
+            prevScene['element'].focus();
+        }
     }
 };

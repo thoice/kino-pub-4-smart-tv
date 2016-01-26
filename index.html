@@ -34,8 +34,17 @@
                     <div id="pager_right" class="pager-wrapper" data-pagetogo="" data-on__key_enter="gotoPage"><span>&rsaquo;</span></div>
                 </div>
                 <div id="info_scene" class="scene hidden">
-                    <div id="info_description"></div>
-                    <div id="info_videos"></div>
+                    <div id="info_poster"><span>[IMG]</span></div>
+                    <dl id="info_description_videos_wrapper">
+                        <dt class="info-tab-header active" data-on__key_enter="activateTab">Видео</dt>
+                        <dd class="info-tab-content">
+                            <div id="info_videos"></div>
+                        </dd>
+                        <dt class="info-tab-header" data-on__key_enter="activateTab">Инфо</dt>
+                        <dd class="info-tab-content">
+                            <div id="info_description"></div>
+                        </dd>
+                    </dl>
                 </div>
                 <div id="player_scene" class="scene hidden">
                     <div id="player_container"></div>

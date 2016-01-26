@@ -70,12 +70,16 @@ body {
 }
 
 .button {
-    font-size: 24px;
+    /*
     margin-top: 1em;
-    padding: 15px;
+    */
+    font-size: 24px;
+    padding: 11px;
     background-color: transparent;
     color: #ffffc8;
     border: 5px solid #ffffc8;
+    box-sizing: border-box;
+    margin: 5px;
 }
 
 .button:hover {
@@ -172,26 +176,58 @@ body {
 }
 
 /* Info */
-.info-poster {
-	max-height: 550px;
-	float: left;
-	margin: 1em;
-}
 
 #info_scene {
     height: 600px;
     overflow: hidden;
 }
 
-#info_description, #info_videos {
+#info_poster {
+    background-color: #6B1212;
+    width: 400px;
+    height: 620px;
     float: left;
-    padding: 0.5em;
-    height: 600px;
+    padding: 10px;
+    text-align: center;
+    line-height: 620px;
 }
 
-#info_description {
-    width: 65%;
+#info_description_videos_wrapper {
+    width: 880px;
+    height: 620px;
+    float: left;
+    margin: 0;
+}
+
+.info-tab-header {
+    float: left;
+    height: 2em;
+    font-size: 1.5em;
+    width: 50%;
+    padding: 5px 0 0 10px;
+    box-sizing: border-box;
+}
+
+.active {
     background-color: #44505a;
+}
+
+.active + .info-tab-content {
+    display: block;
+}
+
+.info-tab-content {
+    float: right;
+    width: 100%;
+    margin-left: -100%;
+    margin-top: 2em;
+    display: none;
+    background-color: #44505a;
+}
+
+#info_description, #info_videos {
+    padding: 0.5em;
+    height: 620px;
 }
 
 .info-title {
@@ -201,16 +237,31 @@ body {
 
 .info-header {
     color: #c8ffff;
-    float: left;
+    /*float: left;*/
     padding-right: 5px;
+    display: block;
+}
+
+.info-text {
+    color: #ffffc8;
 }
 
 .label-danger {
     color: #ff7575;
 }
 
-.video-row .button {
-    margin: 5px;
+.video-row {
+    width: 100%;
+}
+
+.video-row.odd {
+    background-color: #566571;
+}
+
+.info-video-duration {
+    float: right;
+    line-height: 70px;
+    margin-right: 10px;
 }
 
 /* Footer

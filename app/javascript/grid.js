@@ -39,7 +39,7 @@ Grid = function(id) {
         var eId = Main.getScene('grid_scene').id;
         eId += '_content';
         var gridElement = document.getElementById(eId);
-        Main.widget.putInnerHTML(gridElement, '');
+        widgetAPI.putInnerHTML(gridElement, '');
         for (var i = 0; i < items.length; i++) {
             var gridItem = items[i];
             //gridItem.addEventListener('click', Main.getScene('grid_scene').loadAndShowItemInfo);
@@ -56,12 +56,12 @@ Grid = function(id) {
         var header = '';
         header += '[' + this.dataset.year + ']' || '';
         header += ' ' + this.dataset.title;
-        Main.widget.putInnerHTML(headerElement, header);
+        widgetAPI.putInnerHTML(headerElement, header);
     };
 
     this.clearHeader = function(e) {
         var headerElement = document.getElementById('header');
-        Main.widget.putInnerHTML(headerElement, '');
+        widgetAPI.putInnerHTML(headerElement, '');
     };
 
     this.loadAndShowItemInfo = function(element) {
