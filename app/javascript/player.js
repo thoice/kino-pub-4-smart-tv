@@ -1,6 +1,7 @@
 Player = function (id) {
     this.id = id;
     this.url = '';
+    this.totalSeconds = -1;
     this.e = document.getElementById(id);
     this.bInited = false;
     this.dimensions = {
@@ -11,22 +12,25 @@ Player = function (id) {
     this.timeoutId = -1;
     this.bufferingCB = {
         onbufferingstart : function () {
-            log("buffering started");
-            this.duration = new PlayTime(this.AVPlay.getDuration());
+            log("onbufferingstart");
+            //this.duration = new PlayTime(this.AVPlay.getDuration());
         },
         onbufferingprogress: function (percent) {
-            this.bufferingProgress = percent;
+            log("onbufferingprogress");
+            //this.bufferingProgress = percent;
             ////Player.updateBufferingInfo();
         },
         onbufferingcomplete: function () {
-            log("buffering completely");
+            log("onbufferingcomplete");
         }
     };
 
     this.playCB = {
         oncurrentplaytime: function (time) {
-            this.curTime = time;
-            this.updateTimeInfo();
+            log("oncurrentplaytime " + time);
+            var p = Main.getScene('player_scene');
+            p.curSeconds = time.millisecond / 1000;
+            p.updateTimeInfo();
         },
         onresolutionchanged: function (width, height) {
             log("resolution changed : " + width + ", " + height);
@@ -40,30 +44,27 @@ Player = function (id) {
     };
 
     //this.curItemTitle = '';
+    this.showAndPlay = function(url, duration) {
+        log('Player.showAndPlay');
+        var playerScene = Main.showScene('player_scene');
+        Main.showSpinner('Картинка готовится');
+        playerScene.play(url, duration);
+    };
 
-    this.play = function(url) {
+    this.play = function(url, duration) {
         this.url = url;
+        this.totalSeconds = duration;
         try {
-            this.show();
+            // TODO title in overlay?
+            // TODO hide:: header / footer repurpose for grid
+            Main.hideSpinner();
             this.init();
-            this.AVPlay.open(url); // TODO
-            this.AVPlay.play(this.successCB, this.errorCB); // TODO
+            this.AVPlay.open(url);
+            this.AVPlay.play(this.successCB, this.errorCB);
         } catch (e) {
             log('Player.play failed');
             log(e.message);
         }
-    };
-
-    this.show = function() {
-        document.getElementById('player_wrapper').classList.remove('hidden');
-        this.hideOverlay();
-        // TODO title in overlay?
-        // TODO header / footer cleanup
-        // TODO header / footer repurpose for player
-        // TODO hide:: header / footer repurpose for grid
-        //var e = document.getElementById('player_overlay_title_info');
-        //widgetAPI.putInnerHTML(e, this.curItemTitle);
-        //Player.showPlayerOverlay();
     };
 
     this.init = function() {
@@ -127,6 +128,15 @@ Player = function (id) {
         p.timeoutId = setTimeout(p.hideOverlay, 3000);
     };
 
+    this.updateTimeInfo = function() {
+        var p = Main.getScene('player_scene');
+        var progressPx = Math.round((p.curSeconds * 1000) / p.totalSeconds);
+        document.getElementById('progress_loaded').style.width = progressPx + 'px';
+        document.getElementById('progress_left').style.width = (1000 - progressPx) + 'px';
+        var progressText = Utils.secondsToDuration(p.curSeconds) + ' / ' + Utils.secondsToDuration(p.totalSeconds);
+        widgetAPI.putInnerHTML(document.getElementById('progress_text'), progressText);
+    };
+
     this.showOverlay = function() {
         document.getElementById('header').classList.remove('hidden');
         document.getElementById('footer').classList.remove('hidden');
@@ -135,5 +145,15 @@ Player = function (id) {
     this.hideOverlay = function(){
         document.getElementById('header').classList.add('hidden');
         document.getElementById('footer').classList.add('hidden');
+    };
+
+    this.onKeyPause = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.pause();
+    };
+
+    this.onKeyPlay = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.resume();
     };
 };

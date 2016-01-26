@@ -1,15 +1,19 @@
-var debug = false;
+var debug = true;//false;
+var consoledebug = false;//true;
 
 log = function (message, file, line) {
-    //TODO append to top
-    var s = document.createElement('span');
-    s.classList.add('debug-item');
-    var t = new Date();
-    message = '[' + t.toLocaleTimeString() + '] ' + message;
-    s.textContent = message;
-    var w = document.getElementById('debug_wrapper');
-    w.appendChild(s);
-    w.scrollTop = w.scrollHeight
+    if (consoledebug === true) {
+        console.log(message);
+    } else {
+        var s = document.createElement('span');
+        s.classList.add('debug-item');
+        var t = new Date();
+        message = '[' + t.toLocaleTimeString() + '] ' + message;
+        s.textContent = message;
+        var w = document.getElementById('debug_wrapper');
+        w.appendChild(s);
+        w.scrollTop = w.scrollHeight
+    }
 };
 
 onerror = function (message, file, line) {
@@ -18,7 +22,8 @@ onerror = function (message, file, line) {
 
 
 window.curWidget = window.curWidget || {
-        id: 'sstv-kino.pub',
+        //id: 'sstv-kino.pub',
+        id: 'kino-pub-4-smart-tv',
         height: 720
     };
 
@@ -64,22 +69,27 @@ if (!window.Common || !window.Common.API) {
     };
 
     Common.API.TVKeyValue = function () {
-        return {
-            KEY_RETURN: 37,
-            KEY_PANEL_RETURN: 37
-        };
         /*
-         case tvKey.KEY_PANEL_RETURN:
+         KEY_ENTER       == enter    ==
+         KEY_RETURN      == \        ==
 
-         case tvKey.KEY_LEFT:
+         KEY_REW         == q        ==
+         KEY_PLAY        == w        ==
+         KEY_PAUSE       == e        ==
+         KEY_FF          == r        ==
 
-         case tvKey.KEY_RIGHT:
-
-         case tvKey.KEY_UP:
-
-         case tvKey.KEY_DOWN:
-
-         case tvKey.KEY_ENTER:
-         case tvKey.KEY_PANEL_ENTER:*/
+         KEY_RED_A       == l        ==  108
+         KEY_GREEN_B     == b        ==
+         KEY_YELLOW_C    == c        ==
+         KEY_BLUE_D      == d        ==
+         KEY_POWER       == `
+         */
+        return {
+            KEY_PANEL_RETURN: 37,
+            KEY_ENTER: 29443,
+            KEY_RETURN: 88,
+            KEY_PLAY: 71,
+            KEY_PAUSE: 74
+        };
     };
 }

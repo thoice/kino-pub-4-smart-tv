@@ -83,6 +83,11 @@ body {
     color: #2f373e;
 }
 
+.button.disabled:hover {
+    background-color: transparent;
+    color: grey;
+}
+
 .button.disabled {
     color: grey;
 }
@@ -132,7 +137,6 @@ body {
 	background: #888;
 	height: 280px;
 	width: 185px;
-	padding: 5px;
 	margin: 8px 15px;
 	background-size: 100% auto;
 	border: 5px solid #888;
@@ -153,13 +157,13 @@ body {
     display: block;
 }
 
-.tl {top: 0; left: 0;}
+.tl {top: 0; left: 5px;}
 
-.tr {top: 0;right: 0;}
+.tr {top: 0; right: 5px;}
 
-.bl {bottom: 0;left: 0;}
+.bl {bottom: 0; left: 5px;}
 
-.br {bottom: 0;right: 0;}
+.br {bottom: 0; right: 5px;}
 
 .mdl {line-height: 280px; text-align: center; width: 100%; }
 
@@ -220,12 +224,37 @@ body {
 	z-index: 100;
 }
 
+#footer_progress_bar {
+    padding-left: 0.5em;
+}
+
+.progress-part {
+    float: left;
+    height: 20px;
+    margin-top: 15px;
+}
+
+#progress_loaded {
+    width: 0px;
+    background-color: #ffffc8;
+}
+
+#progress_left {
+    width: 1000px;
+    background-color: #888888;
+}
+
+#progress_text {
+    line-height: 25px;
+    padding-left: 0.5em;
+}
+
 #debug_wrapper {
 	background-color: rgba(50, 50, 50, 0.95);
 	width: 50%;
 	height: 60%;
 	position: absolute;
-	top: 0;
+	bottom: 50px;
 	right: 0;
 	color: #ffffff;
 	font-size: 10pt;

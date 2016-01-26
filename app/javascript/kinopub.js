@@ -62,8 +62,8 @@ var Kinopub = {
                 + '<span id="uri" style="color:yellow; font-weight:bold">' + response.user_code + '</span> '
                 + 'и тыкай "Активировать"<br/>'
                 + '3) нажимай кнопочку, чтоб роботы его проверили<br/>'
-                + '<button class="verify_device_token button"><span>Готово, спускайте роботов</span></button>';
-            Main.showSpinner(message, Kinopub.getDeviceToken);
+                + '<button class="verify_device_token button" data-on__key_enter="getDeviceToken"><span>Готово, спускайте роботов</span></button>';
+            Main.showSpinner(message);
         }
     },
     ignoreActivation: function() {
@@ -93,8 +93,8 @@ var Kinopub = {
         session.deviceTokenResponse = response;
         Settings.setData('session', session);
         var message = 'Это успех! Попросить роботов загрузить еще и каталог?<br />'
-            + '<button class="button"><span>Да, пусть загрузят еще и каталог, пожалуйста.</span></button>';
-        Main.showSpinner(message, Main.getScene('grid_scene').loadAndRenderPage);
+            + '<button class="button" data-on__key_enter="loadCatalog"><span>Да, пусть загрузят еще и каталог, пожалуйста.</span></button>';
+        Main.showSpinner(message);
     },
     authorization_pending_handler: function() {
         var b = document.querySelector('#spinner .verify_device_token');
@@ -165,10 +165,13 @@ var Kinopub = {
     },
     errorHandler: function(message, error){
         log('Error:' + message);
-        var handler = error + '_handler';
-        if (Kinopub[handler] !== undefined && typeof Kinopub[handler] === 'function') {
-            Kinopub[handler](message);
+        var errorHandler = error + '_handler';
+        if (Kinopub[errorHandler] !== undefined && typeof Kinopub[errorHandler] === 'function') {
+            Kinopub[errorHandler](message);
         }
+    },
+    loadCatalog: function(){
+        Main.getScene('grid_scene').showAndLoadPage();
     },
     getTypes: function(){},
     getGenres: function(){},
@@ -211,8 +214,8 @@ var Kinopub = {
         gridItem.dataset.id = item.id;
         gridItem.dataset.title = item.title;
         gridItem.dataset.year = item.year;
-        gridItem.dataset.handler = 'loadAndShowItemInfo';
-        gridItem.style.backgroundColor = '#64194B';
+        gridItem.dataset.on__key_enter = 'loadAndShowItemInfo';
+        gridItem.style.backgroundColor = '#64194b';
         var tl = document.createElement('div');
         tl.classList.add('tl');
         tl.textContent = item.rating;

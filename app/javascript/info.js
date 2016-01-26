@@ -6,16 +6,16 @@ Info = function(id) {
     this.parameters = {};
 
     //TODO if clicked top left corner and loadAndShowItemInfo does errors out(Cannot read property 'contains' of undefined) the keyDown works. Why????
-    this.loadAndRender = function (element) {
-        log('Info.loadAndRender');
+    this.showAndLoad = function (element) {
+        log('Info.showAndLoad');
         Main.showScene('info_scene');
         Main.showSpinner('Роботы работают еще усерднее и сейчас мы узнаем подробности');
 
         var itemId = element.dataset.id;
-        Main.apier.ajax(Main.apier.getItemUrl(itemId), this.parameters, 'get', this.loadItemHandler);
+        Main.apier.ajax(Main.apier.getItemUrl(itemId), this.parameters, 'get', this.loadHandler);
     };
 
-    this.loadItemHandler = function(response) {
+    this.loadHandler = function(response) {
         //var item = Main.apier.convertResponseToItemInfo(response);
         var info = Main.getScene('info_scene');
         info.renderItem(response.item);
@@ -37,17 +37,6 @@ Info = function(id) {
             var videoLinksRow = videoLinks[v];
             this.videosElement.appendChild(videoLinksRow);
         }
-
-
-        /*var playBtnHttp = document.createElement('button');
-        playBtnHttp.classList.add('info-play-btn');
-        playBtnHttp.addEventListener('click', this.play);
-        // TODO playBtnHttp.dataset.url = item['video']['http'];
-        playBtnHttp.dataset.handler = 'playVideo';
-        var playBtnHttpSpan = document.createElement('span');
-        playBtnHttpSpan.textContent = 'play';
-        playBtnHttp.appendChild(playBtnHttpSpan);
-        this.e.appendChild(playBtnHttp);*/
 
         //id
         //type
@@ -79,8 +68,6 @@ Info = function(id) {
             dl.appendChild(dd);
         }
         this.descriptionElement.appendChild(dl);
-        // TODO item.genres
-        // TODO item.countries
         // TODO IMDB link item.imdb
         // TODO item.imdb_votes
         // TODO kinopoisk link item.kinopoisk
@@ -136,18 +123,19 @@ Info = function(id) {
                     row.classList.add('video-row');
                     var duration = document.createElement('span');
                     duration.classList.add('info-video-duration');
-                    duration.textContent = this.getDuration(video['duration']);
+                    duration.textContent = Utils.secondsToDuration(video['duration']);
                     row.appendChild(duration);
                     var file;
                     for (var f = 0; f < video['files'].length; f++) {
                         file = video['files'][f];
                         var button = document.createElement('button');
                         button.classList.add('button');
-                        button.dataset.handler = 'playVideo';
+                        button.dataset.on__key_enter = 'playVideo';
                         var btnText = document.createElement('span');
                         btnText.textContent = file['quality'];
                         button.appendChild(btnText);
                         button.dataset.url = file['url']['http'];
+                        button.dataset.duration = video['duration'];
                         row.appendChild(button);
                     }
                     videoLinks.push(row);
@@ -164,21 +152,10 @@ Info = function(id) {
         return videoLinks;
     };
 
-    this.getDuration = function(totalSeconds)
-    {
-        var hours = parseInt( totalSeconds / 3600 ) % 24;
-        var minutes = parseInt( totalSeconds / 60 ) % 60;
-        var seconds = totalSeconds % 60;
-        var result = (hours < 10 ? "0" + hours : hours)
-            + ":" + (minutes < 10 ? "0" + minutes : minutes)
-            + ":" + (seconds  < 10 ? "0" + seconds : seconds);
-
-        return result;
-    };
-
     this.playVideo = function(videoElement) {
         var url = videoElement.dataset.url;
-        // TODO push to focus stack
-        Main.getScene('player_scene').play(url);
+        var duration = videoElement.dataset.duration;
+        Main.pushToFocusStack(this, videoElement);
+        Main.getScene('player_scene').showAndPlay(url, duration);
     }
 };

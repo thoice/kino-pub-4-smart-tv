@@ -11,10 +11,10 @@ Grid = function(id) {
         throw Error('DOM element with id ' + id + ' does not exist.');
     }
 
-    this.loadAndRenderPage = function () {
-        log('Grid.loadAndRenderPage');
-        Main.showScene('grid_scene');
+    this.showAndLoadPage = function () {
+        log('Grid.showAndLoadPage');
         Main.showSpinner('Роботы работают, и вот-вот покажут нам результаты');
+        Main.showScene('grid_scene');
         var grid = Main.getScene('grid_scene');
         Main.apier.ajax(Main.apier.getItemsUrl(), grid.parameters, 'get', grid.loadHandler);
     };
@@ -66,7 +66,7 @@ Grid = function(id) {
 
     this.loadAndShowItemInfo = function(element) {
         Main.pushToFocusStack(this, element);
-        Main.getScene('info_scene').loadAndRender(element);
+        Main.getScene('info_scene').showAndLoad(element);
     };
 
     this.gotoPage = function(element)
@@ -74,7 +74,7 @@ Grid = function(id) {
         var s = Main.getScene('grid_scene');
         if (element.dataset && element.dataset.pagetogo) {
             s.parameters.page = element.dataset.pagetogo;
-            s.loadAndRenderPage();
+            s.showAndLoadPage();
         }
     };
 };

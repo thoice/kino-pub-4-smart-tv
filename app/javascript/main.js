@@ -25,12 +25,12 @@ Main.onLoad = function()
     Main.scenes['grid_scene'] = gridScene;
     Main.scenes['info_scene'] = new Info('info_scene');
     Main.scenes['player_scene'] = new Player('player_scene');
-    Main.scenes['apier'] = Kinopub; //TODO should this be present? We can handle mouse clicks in login screen with default keydown handler
-    Main.activeScene = Kinopub;
-    Main.apier = Kinopub;
+    Main.scenes['apier'] = Kinopub;
+    Main.activeScene = 'apier';
+    Main.apier = Main.getScene('apier');
     // TODO handle ignored login (just browse favourites?)
     // TODO init Menu with getTypes, getGenres, getCountries
-    Main.apier.login(gridScene.loadAndRenderPage, log);
+    Main.apier.login(gridScene.showAndLoadPage, log);
 };
 
 Main.onUnload = function()
@@ -55,11 +55,6 @@ Main.showSpinner = function(message, buttonHandler) {
     if (sw === null || s === null) { return; }
     message = message || 'Вас много, а роботы - одни. Ждите...';
     widgetAPI.putInnerHTML(s, message);
-    // TODO handler with data attributes
-    var button = document.querySelector('#spinner .button');
-    if (button) {
-        button.addEventListener('click', buttonHandler);
-    }
     s.style.marginTop = (curWidget.height - s.clientHeight) / 2 + 'px';
     sw.classList.remove('hidden');
 };
@@ -104,12 +99,12 @@ Main.showScene = function(sceneId)
     }
 
     Main.activeScene = newScene.id;
+    return newScene;
 };
 
 Main.pushToFocusStack = function(scene, element)
 {
     if (!scene) { return; }
-    // TODO implement element
     Main.focusStack.push(
         {
             scene: scene,
@@ -126,28 +121,41 @@ Main.getActiveScene = function()
 
 Main.keyDown = function()
 {
-    log('keypressed');
-    // TODO check if this is fired after addEventListener('click', something) was finished.
-    // TODO maybe stopPropagation and preventDefault?
-    // TODO 1) get keyCode || enter as keyCode if it is a click
-    // TODO 2) attach to data-handler- 37
-    // TODO 3) search for handler in parents of data-handler-37
-    // TODO 4) if found, then call handler with this item
-    var element = findAscenderWithData(event.target, 'handler');
-    if (!element) {
-        log('No element with handler found for event.type ' + event.type + ' and code ' + event.keyCode);
-        return;
-    }
-    var handler = element.dataset['handler'];
-    var scene = Main.getActiveScene();
-    if (scene[handler] !== undefined) {
-        scene[handler](element);
-    }
-    // TODO element == null means that no parent has handler. Handle by default handler
+    // TODO handle return button to pop focusStack
     var keyCode = event.keyCode;
+    log('keydown ' + keyCode);
     if (event.type == 'click')
     {
         keyCode = tvKey.KEY_ENTER;
+    }
+
+    // Find key name by code and build up a handler name to look up in the element
+    var keyName = Utils.findKeyByValue(tvKey, keyCode) || '';
+    keyName = keyName.toLowerCase();
+    if (!keyName) {
+        log('this key(' + keyName + ':' + keyCode + ') is not handled by this element');
+    }
+
+    var handlerCode = 'on__' + keyName;
+    var element = Utils.findAscenderWithData(event.target, handlerCode);
+
+    var handlerName = 'on';
+    var kParts = keyName.split('_');
+    for (var k = 0; k < kParts.length; k++ ) {
+        handlerName += kParts[k][0].toUpperCase() + kParts[k].slice(1);
+    }
+
+    var scene = Main.getActiveScene();
+
+    if (element) {
+        handlerName = element.dataset[handlerCode];
+    }
+
+    if (scene[handlerName] !== undefined) {
+        event.preventDefault();
+        event.stopPropagation();
+        scene[handlerName](element, event);
+        return;
     }
 
     log("Key pressed: " + keyCode);
@@ -159,38 +167,8 @@ Main.keyDown = function()
             log("RETURN");
             widgetAPI.sendReturnEvent();
             break;
-        case tvKey.KEY_LEFT:
-            log("LEFT");
-            break;
-        case tvKey.KEY_RIGHT:
-            log("RIGHT");
-            break;
-        case tvKey.KEY_UP:
-            log("UP");
-            break;
-        case tvKey.KEY_DOWN:
-            log("DOWN");
-            break;
-        case tvKey.KEY_ENTER:
-        case tvKey.KEY_PANEL_ENTER:
-            log("ENTER");
-            break;
         default:
             log("Unhandled key");
             break;
     }
-};
-
-/*
-* get parent element that has corresponding data attribute
-* */
-findAscenderWithData = function(e, dataName)
-{
-    if (e.dataset && e.dataset[dataName] !== undefined) {
-        return e;
-    }
-    if (e.parentNode !== null) {
-        return findAscenderWithData(e.parentNode, dataName);
-    }
-    return null;
 };
