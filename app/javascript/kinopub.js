@@ -242,7 +242,7 @@ var Kinopub = {
         // TODO placeholder if not enough items per page
         // TODO when images work -> uncomment css .tl, .tr, .bl, .br, .mdl {
         // TODO when images work -> uncomment
-        //var img = (item.posters !== undefined && item.posters.medium !== undefined) ? item.posters.medium : '';
+        var img = (item.posters !== undefined && item.posters.medium !== undefined) ? item.posters.medium : '';
         //log(img);
         //gridItem.style.backgroundImage = 'url("' + img + '")';
 

@@ -1,4 +1,9 @@
 Player = function (id) {
+    this.footerHtml = '<div id="footer_progress_bar">' +
+        '<div id="progress_loaded" class="progress-part"></div>' +
+        '<div id="progress_left" class="progress-part"></div>' +
+        '<div id="progress_text" class="progress-part">00:00:00</div>' +
+    '</div>';
     this.id = id;
     this.url = '';
     this.totalSeconds = -1;
@@ -49,6 +54,21 @@ Player = function (id) {
         var playerScene = Main.showScene('player_scene');
         Main.showSpinner('Картинка готовится');
         playerScene.play(url, duration);
+    };
+
+    this.onShow = function()
+    {
+        var footer = document.getElementById('footer');
+        var player = Main.getScene('player_scene');
+        widgetAPI.putInnerHTML(footer, player.footerHtml);
+    };
+
+    this.onHide = function()
+    {
+        var footer = document.getElementById('footer');
+        footer.classList.remove('hidden');
+        var header = document.getElementById('header');
+        header.classList.remove('hidden');
     };
 
     this.play = function(url, duration) {
@@ -133,7 +153,7 @@ Player = function (id) {
         var progressPx = Math.round((p.curSeconds * 1000) / p.totalSeconds);
         document.getElementById('progress_loaded').style.width = progressPx + 'px';
         document.getElementById('progress_left').style.width = (1000 - progressPx) + 'px';
-        var progressText = Utils.secondsToDuration(p.curSeconds) + ' / ' + Utils.secondsToDuration(p.totalSeconds);
+        var progressText = Utils.secondsToDuration(Math.round(p.curSeconds)) + ' / ' + Utils.secondsToDuration(p.totalSeconds);
         widgetAPI.putInnerHTML(document.getElementById('progress_text'), progressText);
     };
 

@@ -5,6 +5,7 @@
 		<title>Kino.pub for smart tv</title>
         <script type="text/javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
         <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Widget.js"></script>
+        <!--script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Plugin.js"></script-->
         <script type="text/javascript" src="app/javascript/debug.js"></script>
 		<script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
         <script type="text/javascript" src="app/javascript/utils.js"></script>
@@ -21,6 +22,8 @@
 	</head>
 
 	<body onload="Main.onLoad();" onunload="Main.onUnload();">
+        <!--object id="pluginObjectTVMW" border="0" classid="clsid:SAMSUNG-INFOLINK-TVMW"></object>
+        <script type="text/javascript" src="$MANAGER_WIDGET/Common/IME/ime2.js"></script-->
         <div id="debug_wrapper" class="hidden"></div>
         <div id="spinner_wrapper" class=""><div id="spinner">&nbsp;</div></div>
         <div id="wrapper">
@@ -35,16 +38,22 @@
                 </div>
                 <div id="info_scene" class="scene hidden">
                     <div id="info_poster"><span>[IMG]</span></div>
-                    <dl id="info_description_videos_wrapper">
+                    <dl id="info_tabs_wrapper">
                         <dt class="info-tab-header active" data-on__key_enter="activateTab">Видео</dt>
-                        <dd class="info-tab-content">
-                            <div id="info_videos"></div>
+                        <dd class="info-tab-content-wrapper">
+                            <div id="info_videos" class="info-tab-content"></div>
                         </dd>
                         <dt class="info-tab-header" data-on__key_enter="activateTab">Инфо</dt>
-                        <dd class="info-tab-content">
-                            <div id="info_description"></div>
+                        <dd class="info-tab-content-wrapper">
+                            <div id="info_description" class="info-tab-content"></div>
                         </dd>
                     </dl>
+                </div>
+                <div id="menu_scene" class="scene hidden">
+                    <div id="menu_left"></div>
+                    <div id="menu_right">
+                        <input id="search_input" style="height: 50px; width: 100%;" />
+                    </div>
                 </div>
                 <div id="player_scene" class="scene hidden">
                     <div id="player_container"></div>

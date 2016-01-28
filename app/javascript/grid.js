@@ -1,5 +1,6 @@
 Grid = function(id) {
     log('Init Grid');
+    this.footerHtml = 'left/right/up/down = navigate. Return = open info. Tools/Guide = open search/menu.';
     this.parameters = {
         // TODO If filter applied, remember to reset page to 1
         page: 1,
@@ -49,6 +50,12 @@ Grid = function(id) {
         }
         Main.hideSpinner();
         log('Grid.loadHandler complete');
+    };
+
+    this.onShow = function (e) {
+        var footer = document.getElementById('footer');
+        var grid = Main.getScene('grid_scene');
+        widgetAPI.putInnerHTML(footer, grid.footerHtml);
     };
 
     this.updateHeader = function (e) {

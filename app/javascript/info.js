@@ -1,11 +1,11 @@
 Info = function(id) {
     this.id = id;
     this.e = document.getElementById(id);
+    this.footerHtml = 'left/right = show info/videos list';
     this.descriptionElement = document.querySelector('#' + id + ' #info_description');
     this.videosElement = document.querySelector('#' + id + ' #info_videos')
     this.parameters = {};
 
-    //TODO if clicked top left corner and loadAndShowItemInfo does errors out(Cannot read property 'contains' of undefined) the keyDown works. Why????
     this.showAndLoad = function (element) {
         log('Info.showAndLoad');
         Main.showScene('info_scene');
@@ -21,6 +21,12 @@ Info = function(id) {
         info.renderItem(response.item);
         Main.hideSpinner();
         log('Grid.loadHandler complete');
+    };
+
+    this.onShow = function (e) {
+        var footer = document.getElementById('footer');
+        var info = Main.getScene('info_scene');
+        widgetAPI.putInnerHTML(footer, info.footerHtml);
     };
 
     this.renderItem = function(item) {
@@ -195,4 +201,71 @@ Info = function(id) {
         }
         element.classList.add('active');
     };
+
+    /**
+     * Switch through tabs
+     *
+     * @param element
+     * @param event
+     */
+    this.onKeyRight = function(element, event)
+    {
+        var scene = Main.getScene('info_scene');
+        var tabs = scene.e.querySelectorAll('.info-tab-header');
+        for (var t = 0; t < tabs.length; t++) {
+            var tab = tabs[t];
+            if (tab.classList.contains('active')) {
+                tab.classList.remove('active');
+            } else {
+                tab.classList.add('active');
+            }
+        }
+    };
+
+    /**
+     * Switch through tabs
+     *
+     * @param element
+     * @param event
+     */
+    this.onKeyLeft = function(element, event)
+    {
+        var scene = Main.getScene('info_scene');
+        var tabs = scene.e.querySelectorAll('.info-tab-header');
+        for (var t = 0; t < tabs.length; t++) {
+            var tab = tabs[t];
+            if (tab.classList.contains('active')) {
+                tab.classList.remove('active');
+            } else {
+                tab.classList.add('active');
+            }
+        }
+    };
+
+    /**
+     * Scroll active tab content down
+     *
+     * @param element
+     * @param event
+     */
+    this.onKeyChDown = function(element, event)
+    {
+        var s = Main.getActiveScene()
+        var tabContent = s.e.querySelector('.active + .info-tab-content-wrapper > .info-tab-content')
+        tabContent.scrollTop += 550;
+    };
+
+    /**
+     * Scroll active tab content up
+     *
+     * @param element
+     * @param event
+     */
+    this.onKeyChUp = function(element, event)
+    {
+        var s = Main.getActiveScene()
+        var tabContent = s.e.querySelector('.active + .info-tab-content-wrapper > .info-tab-content')
+        tabContent.scrollTop -= 550;
+    };
+    // TODO on key_down => process keyboard event (focus lower element + scrollToViewifNeeded)
 };

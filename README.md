@@ -1,3 +1,7 @@
+Web browser keys to test functionality
+Return = x
+Tools/Guide? = k
+
 former name: sstv-kino.pub
 current name: kino-pub-4-smart-tv
 # kino-pub-4-smart-tv
@@ -30,3 +34,6 @@ cd ~/Projects/SmartTV/Apps/sstv-kino.pub;  zip -r -0 /var/www/0-default-site/wid
        </widget>
     </list>
     </rsp>
+
+#to do
+* make scene of dynamic height. So it will fit all height between header and footer

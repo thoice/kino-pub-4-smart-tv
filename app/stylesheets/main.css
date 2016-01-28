@@ -179,7 +179,6 @@ body {
 
 #info_scene {
     height: 600px;
-    overflow: hidden;
 }
 
 #info_poster {
@@ -192,7 +191,7 @@ body {
     line-height: 620px;
 }
 
-#info_description_videos_wrapper {
+#info_tabs_wrapper {
     width: 880px;
     height: 620px;
     float: left;
@@ -201,7 +200,7 @@ body {
 
 .info-tab-header {
     float: left;
-    height: 2em;
+    height: 50px;
     font-size: 1.5em;
     width: 50%;
     padding: 5px 0 0 10px;
@@ -212,11 +211,11 @@ body {
     background-color: #44505a;
 }
 
-.active + .info-tab-content {
+.active + .info-tab-content-wrapper {
     display: block;
 }
 
-.info-tab-content {
+.info-tab-content-wrapper {
     float: right;
     width: 100%;
     margin-left: -100%;
@@ -227,7 +226,8 @@ body {
 
 #info_description, #info_videos {
     padding: 0.5em;
-    height: 620px;
+    height: 570px;
+    overflow: hidden;
 }
 
 .info-title {

@@ -1,4 +1,4 @@
-var debug = false;//false;
+var debug = true;//false;
 var consoledebug = false;//true;
 
 log = function (message, file, line) {
@@ -92,4 +92,6 @@ if (!window.Common || !window.Common.API) {
             KEY_PAUSE: 74
         };
     };
+
+    Common.API.Plugin = function () {}
 }

@@ -1,4 +1,6 @@
 var widgetAPI = new Common.API.Widget();
+// TODO IME? Does not work. Implement on your own
+//var pluginAPI = new Common.API.Plugin();
 var tvKey = new Common.API.TVKeyValue();
 
 var Main =
@@ -43,6 +45,21 @@ Main.enableKeys = function()
     // TODO used for older TVs. Implement?
     //document.getElementById("anchor").focus();
 };
+
+// TODO IME? Does not work. Implement on your own
+/*Main.enableKeys2 = function()
+{
+    document.getElementById("search_input").setAttribute("maxlength", 5);
+    var ime = new IMEShell("search_input", Main.ime_init_text, 'en');
+    if (!ime){
+        alert("object for IMEShell create failed", 3);
+    }
+    pluginAPI.registIMEKey();
+};
+
+Main.ime_init_text = function(a) {
+    console.dir(a);
+};*/
 
 /**
  * Show spinner with custom message or default
@@ -94,6 +111,9 @@ Main.showScene = function(sceneId)
             scene.e.classList.add('hidden');
         } else {
             scene.e.classList.remove('hidden');
+            if (scene['onShow'] !== undefined) {
+                scene['onShow']();
+            }
         }
     }
 
@@ -129,6 +149,9 @@ Main.getActiveScene = function()
 
 Main.keyDown = function()
 {
+    // TODO IME? Does not work. Implement on your own
+    //if (document.activeElement.nodeName.toLowerCase() === 'input') { return; }
+
     // TODO handle return button to pop focusStack
     var keyCode = event.keyCode;
     log('keydown ' + keyCode);
@@ -140,9 +163,6 @@ Main.keyDown = function()
     // Find key name by code and build up a handler name to look up in the element
     var keyName = Utils.findKeyByValue(tvKey, keyCode) || '';
     keyName = keyName.toLowerCase();
-    if (!keyName) {
-        log('this key(' + keyName + ':' + keyCode + ') is not handled by this element');
-    }
 
     var handlerCode = 'on__' + keyName;
     var element = Utils.findAscenderWithData(event.target, handlerCode);
@@ -150,6 +170,9 @@ Main.keyDown = function()
     var handlerName = 'on';
     var kParts = keyName.split('_');
     for (var k = 0; k < kParts.length; k++ ) {
+        if (kParts[k][0] === undefined) {
+            continue;
+        }
         handlerName += kParts[k][0].toUpperCase() + kParts[k].slice(1);
     }
 
@@ -173,7 +196,7 @@ Main.keyDown = function()
         return;
     }
 
-    log("Key pressed: " + keyCode);
+    log("Key pressed: " + keyCode + ' : ' + keyName);
 
     switch(keyCode)
     {
@@ -188,14 +211,34 @@ Main.keyDown = function()
     }
 };
 
+/**
+ * Pop scene from focus stack and show it.
+ * If current active scene has onHide method, execute it
+ *
+ * @param element
+ * @param event
+ */
 Main.onKeyReturn = function(element, event)
 {
-    // TODO add handler per scene, so it can destroy player and reset header/footer
+    log('Return pressed');
     var prevScene = Main.popFromfocusStack();
     if (prevScene && prevScene['scene'] !== undefined && prevScene['scene']['id'] !== undefined) {
+        var activeScene = Main.getActiveScene();
+        if (activeScene['onHide'] !== undefined) {
+            log('onHide processing');
+            activeScene['onHide']();
+        }
         Main.showScene(prevScene['scene']['id']);
         if (prevScene['element'] !== undefined) {
             prevScene['element'].focus();
         }
     }
+};
+
+Main.onKeyTools = function(element, event)
+{
+    if (Main.activeScene === 'menu') {
+        return;
+    }
+
 };
