@@ -4,7 +4,8 @@ Grid = function(id) {
     this.parameters = {
         // TODO If filter applied, remember to reset page to 1
         page: 1,
-        perpage: 10
+        perpage: 10,
+        title: ''
     };
     this.id = id;
     this.e = document.getElementById(id);

@@ -1,0 +1,54 @@
+.keyboard-item {
+    list-style: none;
+    float: left;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ffffc8;
+    box-sizing: border-box;
+    margin: 5px;
+    text-align: center;
+    line-height: 40px;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.keyboard-item-spacer {
+    list-style: none;
+    float: left;
+    height: 50px;
+    box-sizing: border-box;
+    margin: 5px;
+    text-align: center;
+    line-height: 40px;
+    -webkit-user-select: none;
+    border: none;
+}
+
+.keyboard-item-spacer-25 {
+    width: 25px;
+}
+
+.keyboard-item-spacer-85 {
+    width: 85px;
+}
+
+.keyboard-item-80 {
+    width: 80px;
+}
+
+.keyboard-item-350 {
+    width: 350px;
+}
+
+.keyboard-item-110 {
+    width: 110px;
+}
+
+.keyboard-item:hover {
+    background-color: #ffffc8;
+    color: #2f373e;
+}
+
+.keyboard-first-item {
+    clear: both;
+}

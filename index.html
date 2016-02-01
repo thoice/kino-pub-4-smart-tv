@@ -10,6 +10,8 @@
 		<script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
         <script type="text/javascript" src="app/javascript/utils.js"></script>
         <!-- Scripts load after everything -->
+        <script type="text/javascript" src="app/javascript/keyboard.js"></script>
+        <script type="text/javascript" src="app/javascript/menu.js"></script>
         <script type="text/javascript" src="app/javascript/grid.js"></script>
         <script type="text/javascript" src="app/javascript/info.js"></script>
         <script type="text/javascript" src="app/javascript/player.js"></script>
@@ -18,6 +20,7 @@
 
         <!-- styles -->
         <link rel="stylesheet" href="app/stylesheets/main.css" type="text/css">
+        <link rel="stylesheet" href="app/stylesheets/keyboard.css" type="text/css">
 		<!-- TODO: Plugins -->
 	</head>
 
@@ -50,9 +53,21 @@
                     </dl>
                 </div>
                 <div id="menu_scene" class="scene hidden">
-                    <div id="menu_left"></div>
-                    <div id="menu_right">
-                        <input id="search_input" style="height: 50px; width: 100%;" />
+                    <div id="menu_wrapper">
+                        <dl id="menu_tabs_wrapper">
+                            <dt class="menu-tab-header active" data-on__key_enter="activateTab">Поиск</dt>
+                            <dd class="menu-tab-content-wrapper">
+                                <input id="search_input" />
+                            </dd>
+                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Типы</dt>
+                            <dd class="menu-tab-content-wrapper">Types</dd>
+                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Жанры</dt>
+                            <dd class="menu-tab-content-wrapper">Genres</dd>
+                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Страны</dt>
+                            <dd class="menu-tab-content-wrapper">Countries</dd>
+                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Настройки</dt>
+                            <dd class="menu-tab-content-wrapper">Settings</dd>
+                        </dl>
                     </div>
                 </div>
                 <div id="player_scene" class="scene hidden">

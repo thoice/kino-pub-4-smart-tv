@@ -1,6 +1,5 @@
+// TODO on return, if grid has filters, ask and reset them?
 var widgetAPI = new Common.API.Widget();
-// TODO IME? Does not work. Implement on your own
-//var pluginAPI = new Common.API.Plugin();
 var tvKey = new Common.API.TVKeyValue();
 
 var Main =
@@ -26,6 +25,7 @@ Main.onLoad = function()
     Main.scenes['grid_scene'] = gridScene;
     Main.scenes['info_scene'] = new Info('info_scene');
     Main.scenes['player_scene'] = new Player('player_scene');
+    Main.scenes['menu_scene'] = new Menu('menu_scene');
     Main.scenes['apier'] = Kinopub;
     Main.activeScene = 'apier';
     Main.apier = Main.getScene('apier');
@@ -45,21 +45,6 @@ Main.enableKeys = function()
     // TODO used for older TVs. Implement?
     //document.getElementById("anchor").focus();
 };
-
-// TODO IME? Does not work. Implement on your own
-/*Main.enableKeys2 = function()
-{
-    document.getElementById("search_input").setAttribute("maxlength", 5);
-    var ime = new IMEShell("search_input", Main.ime_init_text, 'en');
-    if (!ime){
-        alert("object for IMEShell create failed", 3);
-    }
-    pluginAPI.registIMEKey();
-};
-
-Main.ime_init_text = function(a) {
-    console.dir(a);
-};*/
 
 /**
  * Show spinner with custom message or default
@@ -160,6 +145,11 @@ Main.keyDown = function()
         keyCode = tvKey.KEY_ENTER;
     }
 
+    // On guide we map key to tools
+    if (keyCode === 651) {
+        keyCode = 75;
+    }
+
     // Find key name by code and build up a handler name to look up in the element
     var keyName = Utils.findKeyByValue(tvKey, keyCode) || '';
     keyName = keyName.toLowerCase();
@@ -237,8 +227,11 @@ Main.onKeyReturn = function(element, event)
 
 Main.onKeyTools = function(element, event)
 {
-    if (Main.activeScene === 'menu') {
+    if (Main.activeScene === 'menu_scene') {
         return;
     }
-
+    //var menu = Main.getScene('menu_scene');
+    var activeScene = Main.getActiveScene();
+    Main.pushToFocusStack(activeScene);
+    Main.showScene('menu_scene');
 };

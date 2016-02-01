@@ -1,4 +1,4 @@
-var debug = true;//false;
+var debug = false;//false;
 var consoledebug = false;//true;
 
 log = function (message, file, line) {
