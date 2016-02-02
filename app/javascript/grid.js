@@ -1,3 +1,4 @@
+// TODO onkey left/right go to next page/prev page
 Grid = function(id) {
     log('Init Grid');
     this.footerHtml = 'left/right/up/down = navigate. Return = open info. Tools/Guide = open search/menu.';
@@ -38,17 +39,26 @@ Grid = function(id) {
             }
         }
         var items = Main.apier.getItemsFromResponse(response);
-        var eId = Main.getScene('grid_scene').id;
+        var grid = Main.getScene('grid_scene');
+        var eId = grid.id;
         eId += '_content';
         var gridElement = document.getElementById(eId);
         widgetAPI.putInnerHTML(gridElement, '');
         for (var i = 0; i < items.length; i++) {
             var gridItem = items[i];
-            //gridItem.addEventListener('click', Main.getScene('grid_scene').loadAndShowItemInfo);
             gridItem.addEventListener('mouseenter', Main.getScene('grid_scene').updateHeader);
             gridItem.addEventListener('mouseleave', Main.getScene('grid_scene').clearHeader);
             gridElement.appendChild(gridItem);
         }
+
+        var missingItems = grid.parameters.perpage - items.length;
+
+        for (i = 0; i < missingItems; i++) {
+            var gridItemPlaceholder = document.createElement('div');
+            gridItemPlaceholder.classList.add('grid-item-placeholder');
+            gridElement.appendChild(gridItemPlaceholder);
+        }
+
         Main.hideSpinner();
         log('Grid.loadHandler complete');
     };

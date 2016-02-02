@@ -6,6 +6,7 @@ Menu = function(id)
     this.keyboard = new Keyboard(id);
     var input = document.getElementById('search_input')
     this.keyboard.showFor(input);
+    this.getMenuItems();
 
     this.activateTab = function(element)
     {
@@ -36,4 +37,40 @@ Menu = function(id)
         var value = this.keyboard.targetElement.value;
         this.keyboard.targetElement.value = value.slice(0, value.length - 1);
     };
+};
+
+Menu.prototype.getMenuItems = function()
+{
+    Main.apier.ajax(Main.apier.getTypesUrl(), {}, 'get', this.loadTypesHandler);
+    Main.apier.ajax(Main.apier.getGenresUrl(), {}, 'get', this.loadGenresHandler);
+};
+
+Menu.prototype.loadTypesHandler = function(response)
+{
+    var item;
+    var wrapper = document.getElementById('menu_types_wrapper');
+    for (var i in response.items) {
+        if (!response.items.hasOwnProperty(i)) { continue; }
+        item = response.items[i];
+        var label = document.createElement('label');
+        label.classList.add('menu-radio-label');
+        var radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.value = item['id'];
+        radio.name = 'type';
+        radio.classList.add('menu-radio');
+        label.appendChild(radio);
+        var labelText = document.createElement('span');
+        labelText.textContent = item['title'];
+        label.appendChild(labelText);
+        wrapper.appendChild(label);
+    }
+    console.dir(response);
+};
+
+Menu.prototype.loadGenresHandler = function(response)
+{
+    // TODO filter genres by selected type.
+    // TODO add notification that genre has limitation
+    console.dir(response);
 };

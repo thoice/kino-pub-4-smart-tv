@@ -1,4 +1,5 @@
 // TODO on return, if grid has filters, ask and reset them?
+// TODO on return abort ajax and close spinner
 var widgetAPI = new Common.API.Widget();
 var tvKey = new Common.API.TVKeyValue();
 
@@ -25,10 +26,10 @@ Main.onLoad = function()
     Main.scenes['grid_scene'] = gridScene;
     Main.scenes['info_scene'] = new Info('info_scene');
     Main.scenes['player_scene'] = new Player('player_scene');
-    Main.scenes['menu_scene'] = new Menu('menu_scene');
     Main.scenes['apier'] = Kinopub;
     Main.activeScene = 'apier';
     Main.apier = Main.getScene('apier');
+    Main.scenes['menu_scene'] = new Menu('menu_scene');
     // TODO handle ignored login (just browse favourites?)
     // TODO init Menu with getTypes, getGenres, getCountries
     Main.apier.login(gridScene.showAndLoadPage, log);
@@ -134,10 +135,6 @@ Main.getActiveScene = function()
 
 Main.keyDown = function()
 {
-    // TODO IME? Does not work. Implement on your own
-    //if (document.activeElement.nodeName.toLowerCase() === 'input') { return; }
-
-    // TODO handle return button to pop focusStack
     var keyCode = event.keyCode;
     log('keydown ' + keyCode);
     if (event.type == 'click')
@@ -225,12 +222,17 @@ Main.onKeyReturn = function(element, event)
     }
 };
 
+/**
+ * Show menu scene on tools/guide key down
+ *
+ * @param element
+ * @param event
+ */
 Main.onKeyTools = function(element, event)
 {
     if (Main.activeScene === 'menu_scene') {
         return;
     }
-    //var menu = Main.getScene('menu_scene');
     var activeScene = Main.getActiveScene();
     Main.pushToFocusStack(activeScene);
     Main.showScene('menu_scene');

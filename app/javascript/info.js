@@ -6,6 +6,11 @@ Info = function(id) {
     this.videosElement = document.querySelector('#' + id + ' #info_videos')
     this.parameters = {};
 
+    /**
+     * Show spinner, launch ajax
+     *
+     * @param element
+     */
     this.showAndLoad = function (element) {
         log('Info.showAndLoad');
         Main.showScene('info_scene');
@@ -15,29 +20,57 @@ Info = function(id) {
         Main.apier.ajax(Main.apier.getItemUrl(itemId), this.parameters, 'get', this.loadHandler);
     };
 
+    /**
+     * Load handler and renderer of response
+     *
+     * @param response
+     */
     this.loadHandler = function(response) {
-        //var item = Main.apier.convertResponseToItemInfo(response);
         var info = Main.getScene('info_scene');
         info.renderItem(response.item);
         Main.hideSpinner();
         log('Grid.loadHandler complete');
     };
 
+    /**
+     * Called on scene show.
+     * Updates footer with usage tips
+     *
+     * @param e
+     */
     this.onShow = function (e) {
         var footer = document.getElementById('footer');
         var info = Main.getScene('info_scene');
         widgetAPI.putInnerHTML(footer, info.footerHtml);
     };
 
+    /**
+     * Show info scene, fill and render info and videos tabs
+     *
+     * @param item
+     */
     this.renderItem = function(item) {
         widgetAPI.putInnerHTML(this.descriptionElement, '');
         widgetAPI.putInnerHTML(this.videosElement, '')
-        // TODO fix when images will be fixed
-        //var poster = document.createElement('img');
+        var poster = document.createElement('img');
         // TODO placeholder
-        //poster.src = item['poster'] || '';
-        //poster.classList.add('info-poster');
-        //this.e.appendChild(poster);
+        var posterImg = '';
+        if (item['posters'] !== undefined) {
+            if (item['posters']['big'] !== undefined) {
+                posterImg = item['posters']['big'];
+            } else if (item['posters']['medium'] !== undefined) {
+                posterImg = item['posters']['medium'];
+            } else if (item['posters']['small'] !== undefined) {
+                posterImg = item['posters']['small'];
+            }
+        }
+
+        posterImg = posterImg.replace(/^https:/, 'http:');
+        poster.src = posterImg;
+        poster.classList.add('info-poster');
+        var infoPosterWrapper = this.e.querySelector('#info_poster');
+        widgetAPI.putInnerHTML(infoPosterWrapper, '');
+        infoPosterWrapper.appendChild(poster);
 
         var videoLinks = this.createVideoRows(item);
         for (var v = 0; v < videoLinks.length; v++) {
@@ -45,9 +78,6 @@ Info = function(id) {
             this.videosElement.appendChild(videoLinksRow);
         }
 
-        //id
-        //type
-        //subtype
         var details_wrapper = document.createElement('div');
         var itemsToRender = {
             year: 'Год',
@@ -74,19 +104,16 @@ Info = function(id) {
         }
         this.descriptionElement.appendChild(details_wrapper);
         // TODO IMDB link item.imdb
-        // TODO item.imdb_votes
         // TODO kinopoisk link item.kinopoisk
-        //kinopoisk_rating
-        //kinopoisk_votes
-        //rating
-        //rating_votes
-        //rating_percentage
-        //views
-        //comments
-        //posters
-        //videos
     };
 
+    /**
+     * Create info row in info tab
+     *
+     * @param labelText
+     * @param text
+     * @returns {Element}
+     */
     this.createInfoRow = function(labelText, text)
     {
         var label = document.createElement('label');
@@ -106,6 +133,12 @@ Info = function(id) {
         return label;
     };
 
+    /**
+     * Fill in videos tab
+     *
+     * @param item
+     * @returns {Array}
+     */
     this.createVideoRows = function(item)
     {
         var videoLinks = [];
@@ -151,6 +184,14 @@ Info = function(id) {
         return videoLinks;
     };
 
+    /**
+     * Create video row in videos tab
+     *
+     * @param rowData
+     * @param rowTitle
+     * @param isOdd
+     * @returns {Element}
+     */
     this.createVideoRow = function(rowData, rowTitle, isOdd)
     {
         var row = document.createElement('div');
@@ -185,6 +226,11 @@ Info = function(id) {
         return row;
     };
 
+    /**
+     * Show player scene, show player and play video
+     *
+     * @param videoElement
+     */
     this.playVideo = function(videoElement)
     {
         var url = videoElement.dataset.url;
@@ -193,6 +239,11 @@ Info = function(id) {
         Main.getScene('player_scene').showAndPlay(url, duration);
     };
 
+    /**
+     * Make next tab active
+     *
+     * @param element
+     */
     this.activateTab = function(element)
     {
         var oldTab= element.parentNode.querySelector('.info-tab-header.active');
@@ -267,5 +318,5 @@ Info = function(id) {
         var tabContent = s.e.querySelector('.active + .info-tab-content-wrapper > .info-tab-content')
         tabContent.scrollTop -= 550;
     };
-    // TODO on key_down => process keyboard event (focus lower element + scrollToViewifNeeded)
+    // TODO on key_down => process keyboard event (focus to lower video row element + scrollToViewifNeeded)
 };

@@ -173,8 +173,12 @@ var Kinopub = {
     loadCatalog: function(){
         Main.getScene('grid_scene').showAndLoadPage();
     },
-    getTypes: function(){},
-    getGenres: function(){},
+    getTypesUrl: function(){
+        return Kinopub.api_endpoint + 'types';
+    },
+    getGenresUrl: function(){
+        return Kinopub.api_endpoint + 'genres';
+    },
     getCountries: function() {},
     getItemsUrl: function()
     {
@@ -216,35 +220,29 @@ var Kinopub = {
         gridItem.dataset.year = item.year;
         gridItem.dataset.on__key_enter = 'loadAndShowItemInfo';
         gridItem.style.backgroundColor = '#64194b';
-        var tl = document.createElement('div');
-        tl.classList.add('tl');
-        tl.textContent = item.rating;
-        var tr = document.createElement('div');
-        tr.classList.add('tr');
-        tr.textContent = 'tr';
-        var bl = document.createElement('div');
-        bl.classList.add('bl');
-        bl.textContent = item.views;
-        var br = document.createElement('div');
-        br.classList.add('br');
-        br.textContent = item.comments;
-        var mdl = document.createElement('div');
-        mdl.classList.add('mdl');
-        mdl.textContent = item.type;
+        var miniInfo = document.createElement('div');
+        miniInfo.classList.add('grid-mini-info');
+        var kinoPubRating = item.rating || '-';
+        var kinoPubViews = item.rating || '-';
+        var imdbRating = item.imdb_rating || '-';
+        var imdbVotes = item.imdb_votes || '-';
+        var kinoPoiskRating = item.kinopoisk_rating || '-';
+        var kinoPoiskVotes = item.kinopoisk_votes || '-';
 
-        gridItem.appendChild(tl);
-        gridItem.appendChild(tr);
-        gridItem.appendChild(bl);
-        gridItem.appendChild(br);
-        gridItem.appendChild(mdl);
-        // TODO item.imdb_rating
-        // TODO item.kinopoisk_rating
-        // TODO placeholder if not enough items per page
-        // TODO when images work -> uncomment css .tl, .tr, .bl, .br, .mdl {
-        // TODO when images work -> uncomment
+        var miniInfoText =  item.type + '<br/>'
+            + 'KinoPub:' + kinoPubRating + '<br/>'
+            + 'KinoPub просмотров:' + kinoPubViews + '<br/>'
+            + 'IMDB:' + imdbRating + '<br/>'
+            + 'IMDB голосов:' + imdbVotes + '<br/>'
+            + 'KinoPoisk:' + kinoPoiskRating + '<br/>'
+            + 'KinoPoisk голосов:' + kinoPoiskVotes;
+
+        widgetAPI.putInnerHTML(miniInfo, miniInfoText);
+        gridItem.appendChild(miniInfo);
+
         var img = (item.posters !== undefined && item.posters.medium !== undefined) ? item.posters.medium : '';
-        //log(img);
-        //gridItem.style.backgroundImage = 'url("' + img + '")';
+        img = img.replace(/^https:/, 'http:');
+        gridItem.style.backgroundImage = 'url("' + img + '")';
 
         return gridItem;
     }
