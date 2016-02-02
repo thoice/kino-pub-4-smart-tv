@@ -52,8 +52,7 @@ Info = function(id) {
     this.renderItem = function(item) {
         widgetAPI.putInnerHTML(this.descriptionElement, '');
         widgetAPI.putInnerHTML(this.videosElement, '')
-        var poster = document.createElement('img');
-        // TODO placeholder
+
         var posterImg = '';
         if (item['posters'] !== undefined) {
             if (item['posters']['big'] !== undefined) {
@@ -65,12 +64,15 @@ Info = function(id) {
             }
         }
 
-        posterImg = posterImg.replace(/^https:/, 'http:');
-        poster.src = posterImg;
-        poster.classList.add('info-poster');
-        var infoPosterWrapper = this.e.querySelector('#info_poster');
-        widgetAPI.putInnerHTML(infoPosterWrapper, '');
-        infoPosterWrapper.appendChild(poster);
+        if (posterImg) {
+            posterImg = posterImg.replace(/^https:/, 'http:');
+            var poster = document.createElement('img');
+            poster.src = posterImg;
+            poster.classList.add('info-poster');
+            var infoPosterWrapper = this.e.querySelector('#info_poster');
+            widgetAPI.putInnerHTML(infoPosterWrapper, '');
+            infoPosterWrapper.appendChild(poster);
+        }
 
         var videoLinks = this.createVideoRows(item);
         for (var v = 0; v < videoLinks.length; v++) {

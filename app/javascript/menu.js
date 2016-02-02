@@ -47,6 +47,9 @@ Menu.prototype.getMenuItems = function()
 
 Menu.prototype.loadTypesHandler = function(response)
 {
+    // TODO Add All filter
+    // TODO Add handler for picking specific filter
+    // TODO Update properties
     var item;
     var wrapper = document.getElementById('menu_types_wrapper');
     for (var i in response.items) {
@@ -65,11 +68,32 @@ Menu.prototype.loadTypesHandler = function(response)
         label.appendChild(labelText);
         wrapper.appendChild(label);
     }
-    console.dir(response);
 };
 
 Menu.prototype.loadGenresHandler = function(response)
 {
+    // TODO Update properties
+    var item;
+    var wrapper = document.getElementById('menu_genres_wrapper');
+
+    for (var i in response.items) {
+        if (!response.items.hasOwnProperty(i)) { continue; }
+        item = response.items[i];
+
+        var label = document.createElement('label');
+        label.classList.add('menu-checkbox-label');
+        label.classList.add('menu-type-' + item['type']);
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = item['id'];
+        checkbox.classList.add('menu-checkbox');
+        label.appendChild(checkbox);
+        var labelText = document.createElement('span');
+        labelText.textContent = item['title'];
+        label.appendChild(labelText);
+        wrapper.appendChild(label);
+    }
+
     // TODO filter genres by selected type.
     // TODO add notification that genre has limitation
     console.dir(response);

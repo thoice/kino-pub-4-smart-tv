@@ -3,11 +3,10 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Kino.pub for smart tv</title>
+        <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
         <script type="text/javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
         <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Widget.js"></script>
-        <!--script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Plugin.js"></script-->
         <script type="text/javascript" src="app/javascript/debug.js"></script>
-		<script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
         <script type="text/javascript" src="app/javascript/utils.js"></script>
         <!-- Scripts load after everything -->
         <script type="text/javascript" src="app/javascript/keyboard.js"></script>
@@ -21,7 +20,6 @@
         <!-- styles -->
         <link rel="stylesheet" href="app/stylesheets/main.css" type="text/css">
         <link rel="stylesheet" href="app/stylesheets/keyboard.css" type="text/css">
-		<!-- TODO: Plugins -->
 	</head>
 
 	<body onload="Main.onLoad();" onunload="Main.onUnload();">
@@ -59,10 +57,11 @@
                             <dd class="menu-tab-content-wrapper">
                                 <input id="search_input" />
                             </dd>
-                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Типы</dt>
-                            <dd id="menu_types_wrapper" class="menu-tab-content-wrapper"></dd>
-                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Жанры</dt>
-                            <dd class="menu-tab-content-wrapper">Genres</dd>
+                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Фильтры</dt>
+                            <dd id="menu_filters_wrapper" class="menu-tab-content-wrapper">
+                                <div id="menu_types_wrapper"></div>
+                                <div id="menu_genres_wrapper"></div>
+                            </dd>
                             <dt class="menu-tab-header" data-on__key_enter="activateTab">Страны</dt>
                             <dd class="menu-tab-content-wrapper">Countries</dd>
                             <dt class="menu-tab-header" data-on__key_enter="activateTab">Настройки</dt>

@@ -75,8 +75,6 @@ Player = function (id) {
         this.url = url;
         this.totalSeconds = duration;
         try {
-            // TODO title in overlay?
-            // TODO hide:: header / footer repurpose for grid
             Main.hideSpinner();
             this.init();
             this.AVPlay.open(url);

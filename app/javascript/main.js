@@ -1,3 +1,4 @@
+// TODO add no mouse support
 // TODO on return, if grid has filters, ask and reset them?
 // TODO on return abort ajax and close spinner
 var widgetAPI = new Common.API.Widget();
@@ -31,7 +32,6 @@ Main.onLoad = function()
     Main.apier = Main.getScene('apier');
     Main.scenes['menu_scene'] = new Menu('menu_scene');
     // TODO handle ignored login (just browse favourites?)
-    // TODO init Menu with getTypes, getGenres, getCountries
     Main.apier.login(gridScene.showAndLoadPage, log);
 };
 

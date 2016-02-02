@@ -143,9 +143,10 @@ body {
 	height: 280px;
 	width: 185px;
 	margin: 8px 15px;
-	background-size: 100% auto;
-	border: 5px solid #888;
+    background-size: 100% 100%;
+    border: 5px solid #888888;
     position: relative;
+    background-position: center;
 }
 .grid-item-placeholder {
     display: inline-block;
@@ -153,7 +154,7 @@ body {
     height: 280px;
     width: 185px;
     margin: 8px 15px;
-    border: 5px solid #888;
+    border: 5px solid #888888;
     position: relative;
 }
 .grid-item:hover .grid-mini-info {
@@ -299,12 +300,27 @@ body {
 }
 
 .menu-radio-label {
-    display: block;
+    display: inline-block;
+    font-size: 18px;
+    border-bottom: 2px solid;
+    margin: 0 6px;
+    box-sizing: border-box;
 }
 
-.menu-radio {
+.menu-radio, .menu-checkbox {
     height: 20px;
-    margin: 10px;
+    margin-right: 6px;
+}
+
+#menu_genres_wrapper {
+    padding-top: 0.5em;
+}
+
+.menu-checkbox-label {
+    display: inline-block;
+    margin-right: 1em;
+    line-height: 1.4em;
+    font-size: 22px;
 }
 
 /* Footer

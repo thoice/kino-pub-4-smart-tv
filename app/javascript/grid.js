@@ -1,4 +1,3 @@
-// TODO onkey left/right go to next page/prev page
 Grid = function(id) {
     log('Init Grid');
     this.footerHtml = 'left/right/up/down = navigate. Return = open info. Tools/Guide = open search/menu.';
@@ -89,10 +88,37 @@ Grid = function(id) {
 
     this.gotoPage = function(element)
     {
+        var pageToGo;
+        if (element === parseInt(element, 10)) {
+            pageToGo = element;
+        } else if (element && element.dataset && element.dataset.pagetogo) {
+            pageToGo = element.dataset.pagetogo;
+        }
         var s = Main.getScene('grid_scene');
-        if (element.dataset && element.dataset.pagetogo) {
-            s.parameters.page = element.dataset.pagetogo;
+        if (pageToGo) {
+            s.parameters.page = pageToGo;
             s.showAndLoadPage();
         }
     };
+
+    this.onKeyRight = function (element)
+    {
+        if (document.activeElement === document.body) { // mouse used
+            var grid = Main.getScene('grid_scene');
+            grid.gotoPage(grid.parameters.page + 1);
+        } else { // keyboard used
+
+        }
+    };
+
+    this.onKeyLeft = function (element)
+    {
+        if (document.activeElement === document.body) { // mouse used
+            var grid = Main.getScene('grid_scene');
+            var pageTogo = (grid.parameters.page - 1) > 0 ? grid.parameters.page - 1 : null;
+            grid.gotoPage(pageTogo);
+        } else { // keyboard used
+
+        }
+    }
 };

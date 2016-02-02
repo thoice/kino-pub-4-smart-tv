@@ -67,11 +67,15 @@ if (!window.Common || !window.Common.API) {
             log('sendReadyEvent')
         }
     };
-
+}
+if (curWidget !== undefined && curWidget.path === undefined)
+{
     Common.API.TVKeyValue = function () {
         /*
-         KEY_ENTER       == enter    ==
+         KEY_ENTER       == enter    == 13
          KEY_RETURN      == \        ==
+         KEY_LEFT       ==  left     == 37
+         KEY_RIGHT      ==  right    == 39
 
          KEY_REW         == q        ==
          KEY_PLAY        == w        ==
@@ -85,13 +89,14 @@ if (!window.Common || !window.Common.API) {
          KEY_POWER       == `
          */
         return {
-            KEY_PANEL_RETURN: 37,
-            KEY_ENTER: 29443,
+            KEY_LEFT: 37,  // 4
+            KEY_RIGHT: 39, // 5
+            KEY_ENTER: 13, // 29443
             KEY_RETURN: 88,
             KEY_PLAY: 71,
-            KEY_PAUSE: 74
+            KEY_PAUSE: 74,
+            KEY_TOOLS: 75
         };
     };
 
-    Common.API.Plugin = function () {}
 }
