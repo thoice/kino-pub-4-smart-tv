@@ -56,9 +56,11 @@ Keyboard = function(id)
                 } else {
                     key.textContent = keyData;
                     key.dataset.valueToAppend = keyData;
-                    key.dataset.on__key_enter = 'processKeyboard';
                 }
 
+                if (key.dataset.on__key_enter === undefined) {
+                    key.dataset.on__key_enter = 'processKeyboard';
+                }
                 if (k === 0) {
                     key.classList.add('keyboard-first-item');
                 }

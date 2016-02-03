@@ -1,17 +1,41 @@
 Grid = function(id) {
     log('Init Grid');
     this.footerHtml = 'left/right/up/down = navigate. Return = open info. Tools/Guide = open search/menu.';
+    this.availParameters = {page: 1, perpage: 10, title: null, type: null};
     this.parameters = {
         // TODO If filter applied, remember to reset page to 1
         page: 1,
         perpage: 10,
-        title: ''
+        title: null,
+        type: null
     };
     this.id = id;
     this.e = document.getElementById(id);
     if (this.e === undefined) {
         throw Error('DOM element with id ' + id + ' does not exist.');
     }
+
+    /**
+     * Update parameters
+     *
+     * @param parametersObj
+     */
+    this.setParameters = function(parametersObj)
+    {
+        var grid = Main.getScene('grid_scene');
+        grid.parameters = grid.availParameters;
+        for (var p in parametersObj) {
+            if (!parametersObj.hasOwnProperty(p) || grid.availParameters.indexOf(p) === -1) { continue; }
+            grid.parameters[p] = parametersObj[p];
+        }
+    };
+
+    this.setParameter = function(parameter, value)
+    {
+        var grid = Main.getScene('grid_scene');
+        if (!grid.availParameters.hasOwnProperty(parameter)) { return; }
+        grid.parameters[parameter] = value;
+    };
 
     this.showAndLoadPage = function () {
         log('Grid.showAndLoadPage');
@@ -94,10 +118,10 @@ Grid = function(id) {
         } else if (element && element.dataset && element.dataset.pagetogo) {
             pageToGo = element.dataset.pagetogo;
         }
-        var s = Main.getScene('grid_scene');
+        var grid = Main.getScene('grid_scene');
         if (pageToGo) {
-            s.parameters.page = pageToGo;
-            s.showAndLoadPage();
+            grid.setParameter('page', pageToGo);
+            grid.showAndLoadPage();
         }
     };
 
@@ -120,5 +144,12 @@ Grid = function(id) {
         } else { // keyboard used
 
         }
-    }
+    };
+
+    this.onKeyReturn = function(element, event)
+    {
+        var grid = Main.getScene('grid_scene');
+        grid.setParameters({});
+        grid.showAndLoadPage();
+    };
 };

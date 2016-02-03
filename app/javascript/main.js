@@ -1,4 +1,6 @@
-// TODO add no mouse support
+// TODO add no wmouse support
+// TODO add language switching and new layout
+// TODO add quick-go to id
 // TODO on return, if grid has filters, ask and reset them?
 // TODO on return abort ajax and close spinner
 var widgetAPI = new Common.API.Widget();

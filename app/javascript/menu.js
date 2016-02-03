@@ -19,16 +19,14 @@ Menu = function(id)
 
     this.processKeyboard = function(element, event)
     {
-        var valueToAppend = element.dataset.valueToAppend;
-        this.keyboard.targetElement.value += valueToAppend;
+        this.keyboard.targetElement.value += element.dataset.valueToAppend;
     };
 
     this.processKeyboardSearch = function(element, event)
     {
         var grid = Main.getScene('grid_scene');
         grid.parameters['page'] = 1;
-        var valueToSearch = this.keyboard.targetElement.value;
-        grid.parameters['title'] = valueToSearch;
+        grid.parameters['title'] = this.keyboard.targetElement.value;
         grid.showAndLoadPage();
     };
 
@@ -37,6 +35,70 @@ Menu = function(id)
         var value = this.keyboard.targetElement.value;
         this.keyboard.targetElement.value = value.slice(0, value.length - 1);
     };
+
+    this.applyFilters = function(element, event)
+    {
+        var types = document.querySelectorAll('#menu_types_wrapper .menu-radio')
+        var type = null;
+        var typeItem;
+        for (var t = 0; t < types.length; t++) {
+            typeItem = types[t];
+            if (typeItem.checked === true || typeItem.checked === 'checked') {
+                type = typeItem.value;
+            }
+        }
+
+        var grid = Main.getScene('grid_scene');
+        grid.setParameter('type', type);
+        grid.showAndLoadPage();
+    };
+
+    /**
+     * Filter out genres based on picked type
+     *
+     * @param element
+     * @param event
+     */
+    this.filterGenres = function(element, event)
+    {
+        var typeRadio = element.querySelector('.menu-radio');
+        if (typeRadio === undefined || !typeRadio.value) {
+            return;
+        }
+        typeRadio.checked = 'checked';
+        var classToLeaveActive = '';
+        switch (typeRadio.value) {
+            case 'concert':
+                classToLeaveActive = 'music';
+                break;
+            case 'movie':
+            case 'serial':
+            case '3d':
+                classToLeaveActive = 'movie';
+                break;
+            case 'documovie':
+            case 'docuserial':
+                classToLeaveActive = 'docu';
+                break;
+            case 'all':
+                classToLeaveActive = '';
+                break;
+            default:
+                break;
+        }
+
+        var genresWrapper = document.getElementById('menu_genres_wrapper');
+        var checkboxLabels = genresWrapper.querySelectorAll('.menu-checkbox-label');
+        for (var cl = 0; cl < checkboxLabels.length; cl++) {
+            var checkboxLabel = checkboxLabels[cl];
+            if (classToLeaveActive === '' || checkboxLabel.classList.contains('menu-type-' + classToLeaveActive)) {
+                checkboxLabel.classList.remove('disabled');
+            } else {
+                checkboxLabel.classList.add('disabled');
+            }
+        }
+        return true;
+    }
 };
 
 Menu.prototype.getMenuItems = function()
@@ -47,21 +109,23 @@ Menu.prototype.getMenuItems = function()
 
 Menu.prototype.loadTypesHandler = function(response)
 {
-    // TODO Add All filter
-    // TODO Add handler for picking specific filter
-    // TODO Update properties
     var item;
     var wrapper = document.getElementById('menu_types_wrapper');
+    response.items.unshift({id: 'all',title: 'Все', default: true});
     for (var i in response.items) {
         if (!response.items.hasOwnProperty(i)) { continue; }
         item = response.items[i];
         var label = document.createElement('label');
         label.classList.add('menu-radio-label');
+        label.dataset.on__key_enter = 'filterGenres';
         var radio = document.createElement('input');
         radio.type = 'radio';
         radio.value = item['id'];
         radio.name = 'type';
         radio.classList.add('menu-radio');
+        if (item['default'] === true) {
+            radio.checked = 'checked';
+        }
         label.appendChild(radio);
         var labelText = document.createElement('span');
         labelText.textContent = item['title'];
@@ -94,7 +158,10 @@ Menu.prototype.loadGenresHandler = function(response)
         wrapper.appendChild(label);
     }
 
-    // TODO filter genres by selected type.
-    // TODO add notification that genre has limitation
-    console.dir(response);
+    var filterButton = document.createElement('button');
+    filterButton.textContent = 'Применить фильтры';
+    filterButton.classList.add('button');
+    filterButton.classList.add('button-apply-filters');
+    filterButton.dataset.on__key_enter = 'applyFilters';
+    wrapper.appendChild(filterButton);
 };

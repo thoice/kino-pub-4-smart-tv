@@ -1,3 +1,6 @@
+// TODO p.AVPlay.jumpForward(sec)
+// TODO p.AVPlay.jumpBackward
+
 Player = function (id) {
     this.footerHtml = '<div id="footer_progress_bar">' +
         '<div id="progress_loaded" class="progress-part"></div>' +

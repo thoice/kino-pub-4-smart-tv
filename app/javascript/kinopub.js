@@ -122,7 +122,7 @@ var Kinopub = {
         var session = Settings.getData('session');
         parameters = parameters || {};
         for (p in parameters) {
-            if (!parameters.hasOwnProperty(p)) { continue; }
+            if (!parameters.hasOwnProperty(p) || parameters[p] === null) { continue; }
 
             if (method === 'post') {
                 if (data === null) {
