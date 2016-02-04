@@ -1,6 +1,8 @@
 Grid = function(id) {
     log('Init Grid');
-    this.footerHtml = 'left/right/up/down = navigate. Return = open info. Tools/Guide = open search/menu.';
+    this.footerHtml = '<div class="footer-group"><img class="footer-icon" src="./res/move.png"><span class="footer-text"> = Навигация</span></div> '
+        + '<div class="footer-group"><img class="footer-icon" src="./res/enter.png"><span class="footer-text"> = Открыть информацию</span></div> '
+        + '<div class="footer-group"><img class="footer-icon" src="./res/tools.png">/<img class="footer-icon" src="./res/guide.png"><span class="footer-text"> = Поиск/Меню</span></div>';
     this.availParameters = {page: 1, perpage: 10, title: null, type: null};
     this.parameters = {
         // TODO If filter applied, remember to reset page to 1

@@ -1,9 +1,11 @@
 Info = function(id) {
     this.id = id;
     this.e = document.getElementById(id);
-    this.footerHtml = 'left/right = show info/videos list';
+    this.footerHtml = '<div class="footer-group"><img class="footer-icon" src="./res/left_right.png"><span class="footer-text"> = Список видео / Информация</span></div> '
+        + '<div class="footer-group"><img class="footer-icon" src="./res/channel.png"><span class="footer-text"> = Прокрутка содержимого</span></div> '
+        + '<div class="footer-group"><img class="footer-icon" src="./res/enter.png"><span class="footer-text"> = Запуск выбранного видео</span></div>';
     this.descriptionElement = document.querySelector('#' + id + ' #info_description');
-    this.videosElement = document.querySelector('#' + id + ' #info_videos')
+    this.videosElement = document.querySelector('#' + id + ' #info_videos');
     this.parameters = {};
 
     /**

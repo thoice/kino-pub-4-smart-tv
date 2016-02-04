@@ -23,12 +23,13 @@
 	</head>
 
 	<body onload="Main.onLoad();" onunload="Main.onUnload();">
-        <!--object id="pluginObjectTVMW" border="0" classid="clsid:SAMSUNG-INFOLINK-TVMW"></object>
-        <script type="text/javascript" src="$MANAGER_WIDGET/Common/IME/ime2.js"></script-->
         <div id="debug_wrapper" class="hidden"></div>
         <div id="spinner_wrapper" class=""><div id="spinner">&nbsp;</div></div>
         <div id="wrapper">
-            <header id="header" class="header">&nbsp;</header>
+            <header id="header_wrapper">
+                <span id="header" class="header-cell"></span>
+                <span id="header_status" class="header-cell"></span>
+            </header>
             <section id="scene_wrapper">
                 <div id="grid_scene" class="scene hidden">
                     <div id="pager_left" class="pager-wrapper" data-pagetogo="" data-on__key_enter="gotoPage"><span>&lsaquo;</span></div>
@@ -73,13 +74,14 @@
                     <div id="player_container"></div>
                 </div>
             </section>
-            <!-- menu -->
-            <footer id="footer" class="footer">
-                <div id="footer_progress_bar">
+
+            <footer id="footer_wrapper">
+                <div id="footer_progress_bar" class="hidden">
                     <div id="progress_loaded" class="progress-part"></div>
                     <div id="progress_left" class="progress-part"></div>
                     <div id="progress_text" class="progress-part">00:00:00</div>
                 </div>
+                <div id="footer" class="footer"></div>
             </footer>
         </div>
 	</body>

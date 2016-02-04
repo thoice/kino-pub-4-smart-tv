@@ -52,8 +52,9 @@ body {
 
 #scene_wrapper > .hidden,
 #player_wrapper.hidden,
-#footer.hidden,
-#header.hidden,
+#footer_wrapper.hidden,
+#footer_wrapper > .hidden,
+#header_wrapper.hidden,
 #debug_wrapper.hidden,
 #spinner_wrapper.hidden {
 	display: none;
@@ -97,16 +98,26 @@ body {
 
 /* Header
 -----------------------------------------------------------------------------*/
-.header {
+#header_wrapper {
 	height: 50px;
 	width: 1280px;
 	padding-left: 13px;
 	font-size: 17pt;
 	background: rgba(57, 66, 74, 0.5);
 	position: relative;
-    /*top: 0;*/
+    display: table;
 	z-index: 100;
 }
+
+.header-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#header {
+    width: 100%;
+}
+
 /* Middle -------------------------------------------------------------------*/
 #scene_wrapper {width: 1280px; height: 600px;}
 
@@ -332,17 +343,34 @@ body {
 
 /* Footer
 -----------------------------------------------------------------------------*/
-.footer {
+#footer_wrapper {
 	width: 1280px;
 	height: 50px;
 	background: rgba(57, 66, 74, 0.5);
 	position: absolute;
 	bottom: 0;
 	z-index: 100;
+    display: table;
+}
+
+#footer_wrapper.extended-footer {
+    height: 100px;
+}
+
+#footer {
+    display: table-cell;
+    vertical-align: middle;
+    height: 50px;
+}
+
+.footer-group {
+    float: left;
+    height: 28px;
+    margin-left: 0.5em;
 }
 
 #footer_progress_bar {
-    padding-left: 0.5em;
+    display: table-row;
 }
 
 .progress-part {
@@ -352,7 +380,8 @@ body {
 }
 
 #progress_loaded {
-    width: 0px;
+    margin-left: 0.5em;
+    width: 0;
     background-color: #ffffc8;
 }
 

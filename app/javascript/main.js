@@ -42,7 +42,7 @@ Main.onUnload = function()
 
 Main.enableKeys = function()
 {
-    log('logging keydown');
+    log('enableKeys');
     document.body.addEventListener('click', Main.keyDown.bind(Main), false);
     document.body.addEventListener('keydown', Main.keyDown.bind(Main), false);
     // TODO used for older TVs. Implement?
@@ -238,4 +238,14 @@ Main.onKeyTools = function(element, event)
     var activeScene = Main.getActiveScene();
     Main.pushToFocusStack(activeScene);
     Main.showScene('menu_scene');
+};
+
+Main.onKeyVolUp = function(element, event)
+{
+    webapis.audiocontrol.setVolumeUp();
+};
+
+Main.onKeyVolDown = function(element, event)
+{
+    webapis.audiocontrol.setVolumeDown();
 };

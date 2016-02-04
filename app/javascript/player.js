@@ -1,12 +1,7 @@
-// TODO p.AVPlay.jumpForward(sec)
-// TODO p.AVPlay.jumpBackward
-
 Player = function (id) {
-    this.footerHtml = '<div id="footer_progress_bar">' +
-        '<div id="progress_loaded" class="progress-part"></div>' +
-        '<div id="progress_left" class="progress-part"></div>' +
-        '<div id="progress_text" class="progress-part">00:00:00</div>' +
-    '</div>';
+    this.footerHtml = '<div class="footer-group"><img class="footer-icon" src="./res/rew_ff.png"><span class="footer-text"> = &plusmn; 10c</span></div> '
+        + '<div class="footer-group"><img class="footer-icon" src="./res/up_down.png"><span class="footer-text"> = &plusmn; 30c</span></div> '
+        + '<div class="footer-group"><img class="footer-icon" src="./res/left_right.png"><span class="footer-text"> = &plusmn; 2м</span></div>';
     this.id = id;
     this.url = '';
     this.totalSeconds = -1;
@@ -21,24 +16,36 @@ Player = function (id) {
     this.bufferingCB = {
         onbufferingstart : function () {
             log("onbufferingstart");
-            //this.duration = new PlayTime(this.AVPlay.getDuration());
+            console.dir(arguments);
+            var playerScene = Main.getScene('player_scene');
+            playerScene.bufferingProgress = 0;
+            playerScene.updateBufferingInfo();
+            playerScene.showOverlay();
         },
         onbufferingprogress: function (percent) {
             log("onbufferingprogress");
-            //this.bufferingProgress = percent;
-            ////Player.updateBufferingInfo();
+            console.dir(arguments);
+            var playerScene = Main.getScene('player_scene');
+            playerScene.bufferingProgress = percent;
+            playerScene.updateBufferingInfo();
+            playerScene.showOverlay();
         },
         onbufferingcomplete: function () {
             log("onbufferingcomplete");
+            console.dir(arguments);
+            var playerScene = Main.getScene('player_scene');
+            playerScene.bufferingProgress = 100;
+            playerScene.updateBufferingInfo();
+            playerScene.timeoutId = setTimeout(playerScene.hideOverlay, 3000);
         }
     };
 
     this.playCB = {
         oncurrentplaytime: function (time) {
             log("oncurrentplaytime " + time);
-            var p = Main.getScene('player_scene');
-            p.curSeconds = time.millisecond / 1000;
-            p.updateTimeInfo();
+            var playerScene = Main.getScene('player_scene');
+            playerScene.curSeconds = time.millisecond / 1000;
+            playerScene.updateTimeInfo();
         },
         onresolutionchanged: function (width, height) {
             log("resolution changed : " + width + ", " + height);
@@ -51,7 +58,6 @@ Player = function (id) {
         }
     };
 
-    //this.curItemTitle = '';
     this.showAndPlay = function(url, duration) {
         log('Player.showAndPlay');
         var playerScene = Main.showScene('player_scene');
@@ -61,17 +67,24 @@ Player = function (id) {
 
     this.onShow = function()
     {
-        var footer = document.getElementById('footer');
+        document.getElementById('footer_wrapper').classList.add('extended-footer');
+        document.getElementById('footer_progress_bar').classList.remove('hidden');
         var player = Main.getScene('player_scene');
+        var footer = document.getElementById('footer');
         widgetAPI.putInnerHTML(footer, player.footerHtml);
     };
 
     this.onHide = function()
     {
-        var footer = document.getElementById('footer');
-        footer.classList.remove('hidden');
-        var header = document.getElementById('header');
-        header.classList.remove('hidden');
+        document.getElementById('footer_wrapper').classList.remove('extended-footer');
+        document.getElementById('footer_progress_bar').classList.add('hidden');
+        var playerScene = Main.getScene('player_scene');
+        playerScene.showOverlay();
+        if (playerScene.timeoutId != -1) {
+            clearTimeout(playerScene.timeoutId);
+        }
+        var statusElement = document.getElementById('header_status');
+        widgetAPI.putInnerHTML(statusElement, '');
     };
 
     this.play = function(url, duration) {
@@ -141,12 +154,12 @@ Player = function (id) {
     };
 
     this.mouseMoved = function() {
-        var p = Main.getScene('player_scene');
-        p.showOverlay();
-        if (p.timeoutId != -1) {
-            clearTimeout(p.timeoutId);
+        var playerScene = Main.getScene('player_scene');
+        playerScene.showOverlay();
+        if (playerScene.timeoutId != -1) {
+            clearTimeout(playerScene.timeoutId);
         }
-        p.timeoutId = setTimeout(p.hideOverlay, 3000);
+        playerScene.timeoutId = setTimeout(playerScene.hideOverlay, 3000);
     };
 
     this.updateTimeInfo = function() {
@@ -158,14 +171,21 @@ Player = function (id) {
         widgetAPI.putInnerHTML(document.getElementById('progress_text'), progressText);
     };
 
+    this.updateBufferingInfo = function()
+    {
+        var playerScene = Main.getScene('player_scene');
+        var statusElement = document.getElementById('header_status');
+        widgetAPI.putInnerHTML(statusElement, playerScene.bufferingProgress + '%');
+    };
+
     this.showOverlay = function() {
-        document.getElementById('header').classList.remove('hidden');
-        document.getElementById('footer').classList.remove('hidden');
+        document.getElementById('header_wrapper').classList.remove('hidden');
+        document.getElementById('footer_wrapper').classList.remove('hidden');
     };
 
     this.hideOverlay = function(){
-        document.getElementById('header').classList.add('hidden');
-        document.getElementById('footer').classList.add('hidden');
+        document.getElementById('header_wrapper').classList.add('hidden');
+        document.getElementById('footer_wrapper').classList.add('hidden');
     };
 
     this.onKeyPause = function() {
@@ -176,5 +196,35 @@ Player = function (id) {
     this.onKeyPlay = function() {
         var p = Main.getScene('player_scene');
         p.AVPlay.resume();
+    };
+
+    this.onKeyRw = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.jumpBackward(10);
+    };
+
+    this.onKeyFf = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.jumpForward(10);
+    };
+
+    this.onKeyDown = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.jumpBackward(30);
+    };
+
+    this.onKeyUp = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.jumpForward(30);
+    };
+
+    this.onKeyLeft = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.jumpBackward(120);
+    };
+
+    this.onKeyRight = function() {
+        var p = Main.getScene('player_scene');
+        p.AVPlay.jumpForward(120);
     };
 };
