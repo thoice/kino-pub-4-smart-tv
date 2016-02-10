@@ -119,29 +119,38 @@ var Kinopub = {
         var data = null;
         var urlParameters = '';
         var token = '';
+        var curtime = '';
         var session = Settings.getData('session');
         parameters = parameters || {};
-        for (p in parameters) {
-            if (!parameters.hasOwnProperty(p) || parameters[p] === null) { continue; }
+        for (var param in parameters) {
+            if (!parameters.hasOwnProperty(param) || parameters[param] === null) { continue; }
 
             if (method === 'post') {
                 if (data === null) {
                     data = new FormData();
                 }
-                data.append(p, parameters[p]);
+                data.append(param, parameters[param]);
             } else if (method === 'get') {
-                urlParameters += '&' + p + '=' + encodeURIComponent(parameters[p]);
+                var paramValue = parameters[param];
+                if (paramValue  instanceof Array) {
+                    paramValue = paramValue.join(',');
+                } else {
+                    paramValue = encodeURIComponent(paramValue);
+                }
+                urlParameters += '&' + param + '=' + paramValue;
             }
         }
 
         if (method === 'get') {
             token = '?access_token=' + session.deviceTokenResponse.access_token;
+            var d = new Date();
+            curtime = '&curtime=' + d.getTime();
         }
 
         var xhr = new XMLHttpRequest();
         xhr.successHandler = successHandler;
         xhr.errorHandler = errorHandler;
-        xhr.open(method, url + token + urlParameters);
+        xhr.open(method, url + token + urlParameters + curtime);
         xhr._requestTimestamp = Math.round(new Date().getTime() / 1000);
         xhr.onreadystatechange = Kinopub.ajaxStateChange;
         xhr.send(data);
@@ -194,7 +203,8 @@ var Kinopub = {
         if (response.pagination.current !== 1) {
             pagers.left = response.pagination.current - 1;
         }
-        if (response.pagination.current !== response.pagination.total) {
+        // TODO add dynamic perpage instead of hardcoded 10?
+        if (response.pagination.current !== response.pagination.total && response.items && response.items.length < 10) {
             pagers.right = response.pagination.current + 1;
         }
         return pagers;

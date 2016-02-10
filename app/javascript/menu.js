@@ -38,18 +38,32 @@ Menu = function(id)
 
     this.applyFilters = function(element, event)
     {
-        var types = document.querySelectorAll('#menu_types_wrapper .menu-radio')
+        var types = document.querySelectorAll('#menu_types_wrapper .menu-radio');
         var type = null;
         var typeItem;
         for (var t = 0; t < types.length; t++) {
             typeItem = types[t];
             if (typeItem.checked === true || typeItem.checked === 'checked') {
                 type = typeItem.value;
+                break;
             }
+        }
+
+        var genres = document.querySelectorAll('#menu_genres_wrapper .menu-checkbox');
+        var genre;
+        var genresArray = [];
+        for (var g = 0; g < genres.length; g++) {
+            genre = genres[g];
+            if (genre.parentNode.classList.contains('disabled')) { continue; }
+            if (genre.checked !== true) { continue; }
+            genresArray.push(genre.value);
         }
 
         var grid = Main.getScene('grid_scene');
         grid.setParameter('type', type);
+        grid.setParameter('genre', genresArray);
+        grid.setParameter('page', 1);
+        Main.showSpinner('Применяем фильтры, ща все будет');
         grid.showAndLoadPage();
     };
 
@@ -136,7 +150,6 @@ Menu.prototype.loadTypesHandler = function(response)
 
 Menu.prototype.loadGenresHandler = function(response)
 {
-    // TODO Update properties
     var item;
     var wrapper = document.getElementById('menu_genres_wrapper');
 

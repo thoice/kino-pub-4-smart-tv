@@ -3,6 +3,7 @@
 // TODO add quick-go to id
 // TODO on return, if grid has filters, ask and reset them?
 // TODO on return abort ajax and close spinner
+// TODO in-grid-item rating. Add images instead of text
 var widgetAPI = new Common.API.Widget();
 var tvKey = new Common.API.TVKeyValue();
 

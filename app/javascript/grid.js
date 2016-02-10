@@ -3,13 +3,13 @@ Grid = function(id) {
     this.footerHtml = '<div class="footer-group"><img class="footer-icon" src="./res/move.png"><span class="footer-text"> = Навигация</span></div> '
         + '<div class="footer-group"><img class="footer-icon" src="./res/enter.png"><span class="footer-text"> = Открыть информацию</span></div> '
         + '<div class="footer-group"><img class="footer-icon" src="./res/tools.png">/<img class="footer-icon" src="./res/guide.png"><span class="footer-text"> = Поиск/Меню</span></div>';
-    this.availParameters = {page: 1, perpage: 10, title: null, type: null};
+    this.availParameters = {page: 1, perpage: 10, title: null, type: null, genre: null};
     this.parameters = {
-        // TODO If filter applied, remember to reset page to 1
         page: 1,
         perpage: 10,
         title: null,
-        type: null
+        type: null,
+        genre: null
     };
     this.id = id;
     this.e = document.getElementById(id);
@@ -26,9 +26,9 @@ Grid = function(id) {
     {
         var grid = Main.getScene('grid_scene');
         grid.parameters = grid.availParameters;
-        for (var p in parametersObj) {
-            if (!parametersObj.hasOwnProperty(p) || grid.availParameters.indexOf(p) === -1) { continue; }
-            grid.parameters[p] = parametersObj[p];
+        for (var param in parametersObj) {
+            if (!parametersObj.hasOwnProperty(param) || grid.availParameters.indexOf(param) === -1) { continue; }
+            grid.parameters[param] = parametersObj[param];
         }
     };
 
@@ -148,10 +148,16 @@ Grid = function(id) {
         }
     };
 
+    /**
+     * Reset all filters
+     *
+     * @param element
+     * @param event
+     */
     this.onKeyReturn = function(element, event)
     {
         var grid = Main.getScene('grid_scene');
-        grid.setParameters({});
+        grid.setParameters();
         grid.showAndLoadPage();
     };
 };

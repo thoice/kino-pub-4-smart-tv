@@ -42,7 +42,7 @@ body {
 	top: 50px;
 	left: 0;
 	width: 1280px;
-	height: 600px;
+	height: 620px;
 }
 
 #wrapper {
@@ -119,11 +119,11 @@ body {
 }
 
 /* Middle -------------------------------------------------------------------*/
-#scene_wrapper {width: 1280px; height: 600px;}
+#scene_wrapper {width: 1280px; height: 620px;}
 
 /* Grid*/
 #grid_scene {display: table;}
-#pager_left, #pager_right {display: table-cell; width: 90px; font-size: 5em; text-align: center;}
+#pager_left, #pager_right {display: table-cell; width: 90px; font-size: 5em; text-align: center; vertical-align: middle;}
 .pager-wrapper span {
 	width: 60px;
 	height: 100px;
@@ -133,10 +133,11 @@ body {
 	margin: auto;
 	border-radius: 5px;
     cursor: default;
+    color: #888888;
 }
 
-.pager-wrapper.available:hover {
-	cursor: pointer;
+.pager-wrapper.enabled span {
+	color: #ffffc8;
 }
 
 .pager-wrapper.enabled:hover span {
@@ -144,17 +145,19 @@ body {
 	color: #2f373e;
 }
 
-#grid_scene_content {width: 1100px; margin: 0 auto; height: 600px; text-align: center; }
+#grid_scene_content {width: 1100px; margin: 0 auto; height: 620px; text-align: center; }
 .grid-item {
-	display: inline-block;
-	background: #888;
-	height: 280px;
-	width: 185px;
-	margin: 8px 15px;
+    /* display: inline-block; */
+    background: #888;
+    height: 300px;
+    width: 200px;
+    margin: 5px 10px;
     background-size: 100% 100%;
     border: 5px solid #888888;
     position: relative;
+    padding: 0px;
     background-position: center;
+    float: left;
 }
 .grid-item-placeholder {
     display: inline-block;
@@ -181,12 +184,14 @@ body {
 
 .grid-item:hover {
 	border: 5px solid #ffff00;
+    -webkit-box-shadow: 0px 0px 15px 5px #ffff00;
+    box-shadow: 0px 0px 15px 5px #ffff00;
 }
 
 /* Info */
 
 #info_scene {
-    height: 600px;
+    height: 620px;
 }
 
 #info_poster {
@@ -199,7 +204,7 @@ body {
 }
 
 #info_poster img {
-    max-height:600px;
+    max-height:620px;
     max-width: 380px;
 }
 
@@ -367,6 +372,10 @@ body {
     float: left;
     height: 28px;
     margin-left: 0.5em;
+}
+
+.footer-icon {
+    float: left;
 }
 
 #footer_progress_bar {
