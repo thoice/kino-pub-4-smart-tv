@@ -25,7 +25,7 @@ Grid = function(id) {
     this.setParameters = function(parametersObj)
     {
         var grid = Main.getScene('grid_scene');
-        grid.parameters = grid.availParameters;
+        grid.parameters = JSON.parse(JSON.stringify(grid.availParameters));
         for (var param in parametersObj) {
             if (!parametersObj.hasOwnProperty(param) || grid.availParameters.indexOf(param) === -1) { continue; }
             grid.parameters[param] = parametersObj[param];

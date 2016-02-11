@@ -204,7 +204,7 @@ var Kinopub = {
             pagers.left = response.pagination.current - 1;
         }
         // TODO add dynamic perpage instead of hardcoded 10?
-        if (response.pagination.current !== response.pagination.total && response.items && response.items.length < 10) {
+        if (response.pagination.current !== response.pagination.total && response.items && response.items.length <= 10) {
             pagers.right = response.pagination.current + 1;
         }
         return pagers;
@@ -232,22 +232,42 @@ var Kinopub = {
         gridItem.style.backgroundColor = '#64194b';
         var miniInfo = document.createElement('div');
         miniInfo.classList.add('grid-mini-info');
-        var kinoPubRating = item.rating || '-';
-        var kinoPubViews = item.rating || '-';
-        var imdbRating = item.imdb_rating || '-';
-        var imdbVotes = item.imdb_votes || '-';
-        var kinoPoiskRating = item.kinopoisk_rating || '-';
-        var kinoPoiskVotes = item.kinopoisk_votes || '-';
+
+        var imdbRatingWrapper = document.createElement('div');
+        imdbRatingWrapper.classList.add('mini-info-rating-wrapper');
+        var imdbLogo = document.createElement('img');
+        imdbLogo.src = './res/imdb_logo.png';
+        imdbLogo.classList.add('mini-info-rating-logo');
+        imdbRatingWrapper.appendChild(imdbLogo);
+        var imdbRatingText = document.createElement('span');
+        var imdbRating = item.imdb_rating || 0.0;
+        var imdbVotes = item.imdb_votes || 0;
+        imdbRatingText.textContent = imdbRating.toFixed(1) + ' из ' + imdbVotes;
+        imdbRatingWrapper.appendChild(imdbRatingText);
+
+        var kinopoiskRatingWrapper = document.createElement('div');
+        kinopoiskRatingWrapper.classList.add('mini-info-rating-wrapper');
+        var kinopoiskLogo = document.createElement('img');
+        kinopoiskLogo.src = './res/kinopoisk_logo.png';
+        kinopoiskLogo.classList.add('mini-info-rating-logo');
+        kinopoiskRatingWrapper.appendChild(kinopoiskLogo);
+        var kinopoiskRatingText = document.createElement('span');
+        var kinoPoiskRating = item.kinopoisk_rating || 0.0;
+        var kinoPoiskVotes = item.kinopoisk_votes || 0;
+        kinopoiskRatingText.textContent = kinoPoiskRating.toFixed(1) + ' из ' + kinoPoiskVotes;
+        kinopoiskRatingWrapper.appendChild(kinopoiskRatingText);
+
+        var kinoPubRating = item.rating || 0.0;
+        var kinoPubViews = item.views || 0;
 
         var miniInfoText =  item.type + '<br/>'
-            + 'KinoPub:' + kinoPubRating + '<br/>'
-            + 'KinoPub просмотров:' + kinoPubViews + '<br/>'
-            + 'IMDB:' + imdbRating + '<br/>'
-            + 'IMDB голосов:' + imdbVotes + '<br/>'
-            + 'KinoPoisk:' + kinoPoiskRating + '<br/>'
-            + 'KinoPoisk голосов:' + kinoPoiskVotes;
-
+            + 'рейтинг: ' + kinoPubRating + '<br/>'
+            + 'смотрели: ' + kinoPubViews + '<br/>'
+        ;
         widgetAPI.putInnerHTML(miniInfo, miniInfoText);
+
+        miniInfo.appendChild(imdbRatingWrapper);
+        miniInfo.appendChild(kinopoiskRatingWrapper);
         gridItem.appendChild(miniInfo);
 
         var img = (item.posters !== undefined && item.posters.medium !== undefined) ? item.posters.medium : '';

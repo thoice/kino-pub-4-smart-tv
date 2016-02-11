@@ -38,6 +38,11 @@ Main.onLoad = function()
     Main.apier.login(gridScene.showAndLoadPage, log);
 };
 
+Main.postLogin = function()
+{
+    // TODO load types and genres after authorization
+};
+
 Main.onUnload = function()
 {};
 

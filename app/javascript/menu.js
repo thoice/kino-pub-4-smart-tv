@@ -171,10 +171,19 @@ Menu.prototype.loadGenresHandler = function(response)
         wrapper.appendChild(label);
     }
 
-    var filterButton = document.createElement('button');
-    filterButton.textContent = 'Применить фильтры';
-    filterButton.classList.add('button');
-    filterButton.classList.add('button-apply-filters');
-    filterButton.dataset.on__key_enter = 'applyFilters';
-    wrapper.appendChild(filterButton);
+    var filtersApplyButton = document.createElement('button');
+    filtersApplyButton.textContent = 'Применить фильтры';
+    filtersApplyButton.classList.add('button');
+    filtersApplyButton.classList.add('button-apply-filters');
+    filtersApplyButton.dataset.on__key_enter = 'applyFilters';
+
+    wrapper.appendChild(filtersApplyButton);
+
+    var filtersResetButton = document.createElement('button');
+    filtersResetButton.textContent = 'Сбросить фильтры';
+    filtersResetButton.classList.add('button');
+    filtersResetButton.classList.add('button-reset-filters');
+    filtersResetButton.dataset.on__key_enter = 'resetFilters';
+
+    wrapper.appendChild(filtersResetButton);
 };
