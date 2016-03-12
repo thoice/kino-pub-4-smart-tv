@@ -1,0 +1,35 @@
+#grid_wrapper {
+    display: table;
+}
+
+#grid_container {
+    background-color: #d2bedf;
+    height: 580px;
+    width: 1100px;
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.pager-wrapper {
+    display: table-cell;
+    width: 90px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.grid-item-wrapper {
+    height: 270px;
+    width: 220px;
+    padding: 10px;
+    position: relative;
+    float: left;
+}
+
+.grid-item-wrapper:focus {
+    border: 5px solid red;
+}
+
+.grid-item {
+    background-color: coral;
+}

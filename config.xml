@@ -10,7 +10,7 @@
     <ListIcon itemtype="string">res/86x70.png</ListIcon>
     <category itemtype="string"/>
     <autoUpdate itemtype="boolean">n</autoUpdate>
-    <ver itemtype="string">0.320</ver>
+    <ver itemtype="string">0.9.0</ver>
     <mgrver itemtype="string"/>
     <fullwidget itemtype="boolean">y</fullwidget>
     <type itemtype="string">user</type>

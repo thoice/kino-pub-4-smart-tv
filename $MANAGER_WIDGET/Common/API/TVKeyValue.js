@@ -1,15 +1,14 @@
-// TODO add browser keys handling?
 window.TvKeyCode = {
     KEY_TOOLS: 75,
     KEY_MUTE: 27,
     KEY_RETURN: 88,
-    KEY_UP: 29460,
-    KEY_DOWN: 29461,
-    KEY_LEFT: 4,
-    KEY_RIGHT: 5,
+    KEY_UP: 38, // 29460,
+    KEY_DOWN: 40, //29461,
+    KEY_LEFT: 37, //4,
+    KEY_RIGHT: 39, //5,
     KEY_WHEELDOWN: 29469,
     KEY_WHEELUP: 29468,
-    KEY_ENTER: 29443,
+    KEY_ENTER: 13, //29443,
     KEY_INFO: 31,
     KEY_EXIT: 45,
     KEY_RED: 108,
@@ -123,6 +122,8 @@ window.TvKeyCode = {
     KEY_PAD_9: 50000014,
     KEY_PAD_0: 50000017
 };
+var Common = Common || {};
+Common.API = Common.API || {};
 Common.API.TVKeyValue = function () {
     return window.TvKeyCode
 };

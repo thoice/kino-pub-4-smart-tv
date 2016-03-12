@@ -3,86 +3,56 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Kino.pub for smart tv</title>
-        <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
-        <script type="text/javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
-        <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Widget.js"></script>
-        <script type="text/javascript" src="app/javascript/debug.js"></script>
-        <script type="text/javascript" src="app/javascript/utils.js"></script>
-        <!-- Scripts load after everything -->
-        <script type="text/javascript" src="app/javascript/keyboard.js"></script>
-        <script type="text/javascript" src="app/javascript/menu.js"></script>
-        <script type="text/javascript" src="app/javascript/grid.js"></script>
-        <script type="text/javascript" src="app/javascript/info.js"></script>
-        <script type="text/javascript" src="app/javascript/player.js"></script>
-        <script type="text/javascript" src="app/javascript/kinopub.js"></script>
-        <script type="text/javascript" src="app/javascript/main.js"></script>
-
-        <!-- styles -->
+		<script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
+		<script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Widget.js"></script>
+		<!-- independent scripts -->
+		<script type="text/javascript" src="app/javascript/debug.js"></script>
+		<script type="text/javascript" src="app/javascript/utils.js"></script>
+		<script type="text/javascript" src="app/javascript/kbdbl.js"></script>
+		<script type="text/javascript" src="app/javascript/settings.js"></script>
+		<!-- dependent scripts -->
+		<!--<script type="text/javascript" src="app/javascript/info.js"></script>-->
+		<script type="text/javascript" src="app/javascript/main.js"></script>
+		<!-- styles -->
+        <link rel="stylesheet" href="app/stylesheets/kbdbl.css" type="text/css">
+        <link rel="stylesheet" href="app/stylesheets/menu.css" type="text/css">
+        <link rel="stylesheet" href="app/stylesheets/grid.css" type="text/css">
         <link rel="stylesheet" href="app/stylesheets/main.css" type="text/css">
-        <link rel="stylesheet" href="app/stylesheets/keyboard.css" type="text/css">
 	</head>
 
 	<body onload="Main.onLoad();" onunload="Main.onUnload();">
-        <div id="debug_wrapper" class="hidden"></div>
-        <div id="spinner_wrapper" class=""><div id="spinner">&nbsp;</div></div>
-        <div id="wrapper">
-            <header id="header_wrapper">
-                <span id="header" class="header-cell"></span>
-                <span id="header_status" class="header-cell"></span>
-            </header>
-            <section id="scene_wrapper">
-                <div id="grid_scene" class="scene hidden">
-                    <div id="pager_left" class="pager-wrapper" data-pagetogo="" data-on__key_enter="gotoPage"><span>&lsaquo;</span></div>
-                    <div id="grid_scene_content">
-                        <div class="grid-item" style="background-image: url('https://media.service-kp.com/poster/item/medium/8983.jpg');"></div>
-                    </div>
-                    <div id="pager_right" class="pager-wrapper" data-pagetogo="" data-on__key_enter="gotoPage"><span>&rsaquo;</span></div>
-                </div>
-                <div id="info_scene" class="scene hidden">
-                    <div id="info_poster"></div>
-                    <dl id="info_tabs_wrapper">
-                        <dt class="info-tab-header active" data-on__key_enter="activateTab">Видео</dt>
-                        <dd class="info-tab-content-wrapper">
-                            <div id="info_videos" class="info-tab-content"></div>
-                        </dd>
-                        <dt class="info-tab-header" data-on__key_enter="activateTab">Инфо</dt>
-                        <dd class="info-tab-content-wrapper">
-                            <div id="info_description" class="info-tab-content"></div>
-                        </dd>
-                    </dl>
-                </div>
-                <div id="menu_scene" class="scene hidden">
-                    <div id="menu_wrapper">
-                        <dl id="menu_tabs_wrapper">
-                            <dt class="menu-tab-header active" data-on__key_enter="activateTab">Поиск</dt>
-                            <dd class="menu-tab-content-wrapper">
-                                <input id="search_input" />
-                            </dd>
-                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Фильтры</dt>
-                            <dd id="menu_filters_wrapper" class="menu-tab-content-wrapper">
-                                <div id="menu_types_wrapper"></div>
-                                <div id="menu_genres_wrapper"></div>
-                            </dd>
-                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Страны</dt>
-                            <dd class="menu-tab-content-wrapper">Countries</dd>
-                            <dt class="menu-tab-header" data-on__key_enter="activateTab">Настройки</dt>
-                            <dd class="menu-tab-content-wrapper">Settings</dd>
-                        </dl>
-                    </div>
-                </div>
-                <div id="player_scene" class="scene hidden">
-                    <div id="player_container"></div>
-                </div>
-            </section>
-
-            <footer id="footer_wrapper">
-                <div id="footer_progress_bar" class="hidden">
-                    <div id="progress_loaded" class="progress-part"></div>
-                    <div id="progress_left" class="progress-part"></div>
-                    <div id="progress_text" class="progress-part">00:00:00</div>
-                </div>
-                <div id="footer" class="footer"></div>
-            </footer>
+        <div id="wrapper" class="kbdbl-focused">
+        	<div id="header_wrapper"></div>
+			<div id="scene_wrapper" class="kbdbl-container kbdbl-focused">
+				<div id="menu_wrapper" class="kbdbl-row kbdbl-y-0" data-kbdbl-y="0">
+					<div tabindex="-1" class="kbdbl kbdbl-x-0 kbdbl-focused menu-item-wrapper" data-kbdbl-x="0">
+						<div class="menu-item-title">Тип</div>
+						<div class="menu-item-dropdown">&nbsp;</div>
+					</div>
+					<div tabindex="-1" class="kbdbl kbdbl-x-1 menu-item-wrapper" data-kbdbl-x="1">Жанр</div>
+					<div tabindex="-1" class="kbdbl kbdbl-x-2 last menu-item-wrapper" data-kbdbl-x="2">Страна</div>
+				</div>
+				<div id="grid_wrapper" class="kbdbl-row kbdbl-y-1 kbdbl-focused" data-kbdbl-y="1" data-dive-for-focus="true">
+					<div tabindex="-1" class="kbdbl kbdbl-x-0 pager-wrapper" data-kbdbl-x="0" data-on-focus-event="grid:pager:focus">&lt;</div>
+					<div id="grid_container" class="kbdbl-container kbdbl-x-1 kbdbl-focused" data-kbdbl-x="1">
+						<!--div class="kbdbl-row kbdbl-y-0 kbdbl-focused" data-kbdbl-y="0">
+							<div tabindex="-1" class="kbdbl kbdbl-x-0 grid-item-wrapper kbdbl-focused" data-kbdbl-x="0"><div class="grid-item">first2focus</div></div>
+							<div tabindex="-1" class="kbdbl kbdbl-x-1 grid-item-wrapper" data-kbdbl-x="1" data-on-key-enter="info:load" data-id="10653" data-title="Милые обманщицы / Pretty Little Liars" data-year="2010" style="background-color: rgb(100, 25, 75);"></div>
+							<div tabindex="-1" class="kbdbl kbdbl-x-2 grid-item-wrapper" data-kbdbl-x="2"><div class="grid-item">&nbsp;</div></div>
+							<div tabindex="-1" class="kbdbl kbdbl-x-3 grid-item-wrapper" data-kbdbl-x="3"><div class="grid-item">&nbsp;</div></div>
+							<div tabindex="-1" class="kbdbl kbdbl-x-4 grid-item-wrapper" data-kbdbl-x="4"><div class="grid-item">&nbsp;</div></div>
+						</div-->
+					</div>
+					<div tabindex="-1" class="kbdbl kbdbl-x-2 pager-wrapper" data-kbdbl-x="2" data-on-focus-event="grid:pager:focus">&gt;</div>
+				</div>
+				<div id="info_wrapper" class="hidden">
+					info
+				</div>
+			</div>
+        	<div id="footer_wrapper">Copyright 2016</div>
         </div>
+		<script type="text/javascript" src="app/javascript/kinopub.js"></script>
+		<script type="text/javascript" src="app/javascript/grid.js"></script>
+		<script type="text/javascript" src="app/javascript/oauth2deviceflow.js"></script>
 	</body>
 </html>
