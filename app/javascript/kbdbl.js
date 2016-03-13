@@ -33,12 +33,16 @@ Keyboardable = {
             log('Keyboardable.navigate cannot find element to focus');
             return;
         }
+        var event;
         if(l.dataset['onFocusEvent']) {
-            var event = new Event(l.dataset['onFocusEvent']);
+            event = new Event(l.dataset['onFocusEvent']);
             event.l = l;
             document.body.dispatchEvent(event);
         } else if (l) {
             l.focus();
+            event = new Event('kbdbl:onfocus');
+            event.l = l;
+            document.body.dispatchEvent(event);
         }
     },
     findLToFocus: function(srcL, x, y) {

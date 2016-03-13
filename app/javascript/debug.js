@@ -2,7 +2,7 @@ window.log = function (msg, type) {
     type = type || 'warn';
     switch (type) {
         case 'warn':
-            console.warn(msg);
+            console.log(msg);
             break;
         case 'error':
             console.error(msg);

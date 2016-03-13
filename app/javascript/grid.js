@@ -15,6 +15,7 @@ Grid = {
 
         document.body.addEventListener('auth:access_token:success', Grid.loadPage, false);
         document.body.addEventListener('ajax:grid_get_items:success', Grid.loadPageSuccess, false);
+        document.body.addEventListener('kbdbl:onfocus', Grid.updateHeader, false);
     },
     initParameters: function () {
         Grid.parameters = JSON.parse(JSON.stringify(Grid.availParameters));
@@ -74,7 +75,7 @@ Grid = {
 
         var gridItem = document.createElement('div');
 
-        //gridItem.classList.add('grid-item');
+        gridItem.classList.add('grid-item');
         gridItem.dataset.id = itemData.id;
         gridItem.dataset.title = itemData.title;
         gridItem.dataset.year = itemData.year;
@@ -126,6 +127,17 @@ Grid = {
 
         gridItemWrapper.appendChild(gridItem);
         return gridItemWrapper;
+    },
+    updateHeader: function(e) {
+        var headerL = document.querySelector('#header');
+        var updateWith = '';
+        var wrapper = e.l;
+        if (e.l) {
+            var item = findChildWithClass(e.l, 'grid-item');
+            if (item && item.dataset && item.dataset.title)
+            updateWith = item.dataset.title;
+        }
+        widgetAPI.putInnerHTML(headerL, updateWith);
     }
 };
 document.addEventListener('DOMContentLoaded', Grid.init, false);

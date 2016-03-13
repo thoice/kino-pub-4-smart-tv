@@ -3,7 +3,8 @@
 }
 
 #grid_container {
-    background-color: #d2bedf;
+    background: #26367f;
+    background: radial-gradient(ellipse at center, #26367f 0%, #2f373e 99%);
     height: 580px;
     width: 1100px;
     margin: 0 auto;
@@ -27,9 +28,41 @@
 }
 
 .grid-item-wrapper:focus {
-    border: 5px solid red;
+    padding: 0;
+}
+.grid-item-wrapper:focus .grid-item {
+    width: 220px;
+    height: 270px;
+    background-position: 0 0;
+    border: 3px solid #ffff00;
 }
 
 .grid-item {
-    background-color: coral;
+    width: 200px;
+    height: 250px;
+    background-position: -7px -7px;
+}
+
+.grid-mini-info {
+    position: absolute;
+    display: none;
+    background-color: rgba(255, 255, 100, 0.85);
+    color: #2f373e;
+    text-align: left;
+    font-size: 22px;
+    cursor: default;
+    bottom: 0;
+}
+
+.grid-item-wrapper:focus .grid-mini-info {
+    display: block;
+}
+
+.mini-info-rating-wrapper {
+    margin: 15px 5px 0;
+}
+
+.mini-info-rating-logo {
+    float: left;
+    margin-right: 15px;
 }

@@ -3,8 +3,28 @@ body			{ background: #2f373e; color: #ffffc8; padding: 0; margin: 0; width: 1280
 
 div             { box-sizing: border-box; }
 :focus          { outline: none; }
+@font-face {
+    font-family: 'OpenSans-CondLight';
+    src: url('../../res/OpenSans-CondLight.woff') format('woff');
+}
 
-#header_wrapper { background-color: #faebd7; height: 60px; width: 100%; }
+#header_wrapper {
+    background: rgba(57, 66, 74, 0.5);
+    height: 60px;
+    width: 100%;
+    display: table;
+    padding-left: 13px;
+    font-size: 20pt;
+}
+
+#header         {
+    display: table-cell;
+    vertical-align: middle;
+    font-family: OpenSans-CondLight, Helvetica, sans-serif;
+    font-weight: 300;
+    line-height: 25px;
+}
+
 #scene_wrapper  { width: 100%; }
 .hidden         { display: none; }
 #footer_wrapper { background-color: #f6b68a; height: 40px; width: 100%; }
