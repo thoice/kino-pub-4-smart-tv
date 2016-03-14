@@ -10,7 +10,7 @@
     <ListIcon itemtype="string">res/86x70.png</ListIcon>
     <category itemtype="string"/>
     <autoUpdate itemtype="boolean">n</autoUpdate>
-    <ver itemtype="string">0.9.0</ver>
+    <ver itemtype="string">0.9.1</ver>
     <mgrver itemtype="string"/>
     <fullwidget itemtype="boolean">y</fullwidget>
     <type itemtype="string">user</type>
@@ -19,7 +19,7 @@
     <childlock itemtype="boolean">n</childlock>
     <videomute itemtype="boolean">n</videomute>
     <dcont itemtype="boolean">y</dcont>
-    <widgetname itemtype="string">kino.pub</widgetname>
+    <widgetname itemtype="string">kino.pub 2</widgetname>
     <description itemtype="string">Watch kino.pub on SmartTV</description>
     <width itemtype="string">1280</width>
     <height itemtype="string">720</height>

@@ -2,6 +2,7 @@ widgetAPI = new Common.API.Widget();
 tvKeyValue = new Common.API.TVKeyValue() || {};
 
 Main = {
+    scenes: {},
     onLoad: function () {
         widgetAPI.sendReadyEvent();
         log('Main.onLoad');
@@ -48,6 +49,21 @@ Main = {
             callName = method.call_name || '';
             var customParameters = JSON.parse(JSON.stringify(method.parameters)) || {};
             url = Main.apier.getUrlFor(callName);
+
+            var paramPlaceholders = url.match(/{(.+?)}/g); // find template vars
+            var paramPlaceholder, paramForPlaceholder;
+
+            for (var p in paramPlaceholders) {
+                if (!paramPlaceholders.hasOwnProperty(p)) {
+                    continue;
+                }
+                paramPlaceholder = paramPlaceholders[p];
+                paramForPlaceholder = paramPlaceholder.replace(/^{|}$/g, ''); // strip heading and trailing braces
+                if (customParameters && customParameters[paramForPlaceholder]) {
+                    url = url.replace(paramPlaceholder, customParameters[paramForPlaceholder]);
+                    delete(customParameters[paramForPlaceholder]);
+                }
+            }
             parameters = Main.apier.getParametersFor(callName, customParameters);
             method = Main.apier.getMethodFor(callName)
         }
@@ -97,5 +113,27 @@ Main = {
         parsedResponse._requestTimestamp = this._requestTimestamp;
         resultEvent.parsedResponse = parsedResponse;
         document.body.dispatchEvent(resultEvent);
+    },
+    addScene: function (id, scene) {
+        Main.scenes[id] = scene;
+    },
+    showScene: function (ids) {
+        if (ids.indexOf === undefined) {
+            ids = [ids];
+        }
+
+        var scenes = document.querySelectorAll('.scene');
+        var scene;
+        for (var s in scenes) {
+            if (!scenes.hasOwnProperty(s)) {
+                continue;
+            }
+            scene = scenes[s];
+            if (ids.indexOf(scene.id) < 0) {
+                scene.classList.add('hidden');
+            } else {
+                scene.classList.remove('hidden');
+            }
+        }
     }
 };

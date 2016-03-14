@@ -17,6 +17,6 @@ onerror = function (message, file, line) {
 
 window.curWidget = window.curWidget || {
         //id: 'sstv-kino.pub',
-        id: 'kino-pub-4-smart-tv',
+        id: 'kino-pub-4-smart-tv-2',
         height: 720
     };

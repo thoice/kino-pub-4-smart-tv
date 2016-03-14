@@ -8,7 +8,7 @@ current name: kino-pub-4-smart-tv
 Kino.pub plugin for SmartTV
 
 #package
-cd ~/Projects/SmartTV/Apps/sstv-kino.pub;  zip -r -0 /var/www/0-default-site/widgets/kino_pub.zip . -x *.git* -x *.idea* -x *.DS_Store -x build/* -x '$MANAGER_WIDGET/*'
+cd ~/Projects/SmartTV/Apps/sstv-kino.pub;  zip -r -0 /var/www/0-default-site/widgets/kino_pub2.zip . -x *.git* -x *.idea* -x *.DS_Store -x build/* -x '$MANAGER_WIDGET/*'
 
 #listing of widgetlist.xml
     <?xml version="1.0" encoding="UTF-8"?>

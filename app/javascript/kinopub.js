@@ -36,6 +36,10 @@ Kinopub = {
         grid_get_items: {
             url: 'http://api.kino.pub/v1',
             path: '/items'
+        },
+        item_get_info: {
+            url: 'http://api.kino.pub/v1',
+            path: '/items/{id}'
         }
     },
     getMethodFor: function (key) {

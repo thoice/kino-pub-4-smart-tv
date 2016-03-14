@@ -2,9 +2,12 @@
     display: table;
 }
 
+#grid_wrapper.hidden {
+    display: none;
+}
+
 #grid_container {
-    background: #26367f;
-    background: radial-gradient(ellipse at center, #26367f 0%, #2f373e 99%);
+    /*background: #26367f;*/
     height: 580px;
     width: 1100px;
     margin: 0 auto;
@@ -17,6 +20,24 @@
     width: 90px;
     text-align: center;
     vertical-align: middle;
+    font-size: 10em;
+    font-family: OpenSans-CondLight, Helvetica, sans-serif;
+}
+
+.pager-wrapper span {
+    /*width: 60px;*/
+    /*height: 100px;*/
+    /*display: block;*/
+    /*line-height: 85px;*/
+    /*text-align: center;*/
+    /*margin: auto;*/
+    /*border-radius: 5px;*/
+    cursor: default;
+    color: #888888;
+}
+
+.pager-wrapper.enabled span {
+    color: #ffffc8;
 }
 
 .grid-item-wrapper {
@@ -41,10 +62,11 @@
     width: 200px;
     height: 250px;
     background-position: -7px -7px;
+    position: relative; /* needed for .grid-mini-info to be absolute */
 }
 
 .grid-mini-info {
-    position: absolute;
+    position: absolute; /* needed for bottom positioning */
     display: none;
     background-color: rgba(255, 255, 100, 0.85);
     color: #2f373e;
@@ -52,6 +74,8 @@
     font-size: 22px;
     cursor: default;
     bottom: 0;
+    overflow: hidden; /* these two needed for smaller block. E.g. ratings are 0 */
+    width: 100%;
 }
 
 .grid-item-wrapper:focus .grid-mini-info {

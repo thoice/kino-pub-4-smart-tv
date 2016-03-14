@@ -3,7 +3,6 @@ todo maybe replace focus children traversal with document.body.querySelector('.k
 */
 Keyboardable = {
     init: function() {
-        document.body.addEventListener('grid:pager:focus', Keyboardable.gridPagerFocus, false);
         document.body.addEventListener('kbdbl:needfocus', Keyboardable.findFocus, false);
         document.body.addEventListener('kbdbl:navigate', Keyboardable.navigate, false);
     },
@@ -53,9 +52,6 @@ Keyboardable = {
             lToFocus = findLVertically(srcL, y, true);
         }
         return lToFocus;
-    },
-    gridPagerFocus: function(e) {
-        alert('grid:pager:focus in Keyboardable.gridPagerFocus');
     }
 };
 

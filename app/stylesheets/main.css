@@ -1,5 +1,14 @@
 html			{ background-color: #ffffff; padding: 0; margin: 0; width: 1280px; height: 720px; }
-body			{ background: #2f373e; color: #ffffc8; padding: 0; margin: 0; width: 1280px; height: 720px; font-family: "Helvetica Neue", Arial, sans-serif; }
+body			{
+    background: #2f373e;
+    color: #ffffc8;
+    padding: 0;
+    margin: 0;
+    width: 1280px;
+    height: 720px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 18pt;
+}
 
 div             { box-sizing: border-box; }
 :focus          { outline: none; }
@@ -7,6 +16,8 @@ div             { box-sizing: border-box; }
     font-family: 'OpenSans-CondLight';
     src: url('../../res/OpenSans-CondLight.woff') format('woff');
 }
+
+#wrapper        { background: radial-gradient(ellipse at center, #26367f 0%, #2f373e 99%); }
 
 #header_wrapper {
     background: rgba(57, 66, 74, 0.5);
@@ -26,5 +37,21 @@ div             { box-sizing: border-box; }
 }
 
 #scene_wrapper  { width: 100%; }
+.scene          { overflow: hidden;}
 .hidden         { display: none; }
 #footer_wrapper { background-color: #f6b68a; height: 40px; width: 100%; }
+
+.button {
+    font-size: 22px;
+    padding: 10px;
+    background-color: transparent;
+    color: #ffffc8;
+    border: 5px solid #ffffc8;
+    box-sizing: border-box;
+    margin: 5px;
+}
+
+.button:focus {
+    background-color: #ffffc8;
+    color: #2f373e;
+}

@@ -1,6 +1,6 @@
 function whichChild(l) {
-    var  i = 0;
-    while((l = l.previousSibling) != null) ++i;
+    var i = 0;
+    while ((l = l.previousSibling) != null) ++i;
     return i;
 }
 
@@ -9,7 +9,7 @@ function findChildWithClass(l, className) {
     var child;
     for (var i = 0; i < children.length; i++) {
         child = children[i];
-        if (child.classList.contains(className)) {
+        if (child.classList.contains(className) && !child.classList.contains('hidden')) {
             return child;
         }
     }
@@ -38,7 +38,9 @@ function findParentWithClass(l, className) {
 }
 
 function hyphenToCamel(data) {
-    return data.replace(/-[a-z]/g, function(string){ return string[1].toUpperCase(); })
+    return data.replace(/-[a-z]/g, function (string) {
+        return string[1].toUpperCase();
+    })
 }
 
 function findLHorizontally(l, qryInc) {
@@ -99,4 +101,15 @@ function findLVertically(l, qryInc, auxClass) {
         foundL = findChildWithClass(foundL, auxClass);
     }
     return foundL;
+}
+
+function secondsToDuration(totalSeconds) {
+    var hours = parseInt(totalSeconds / 3600) % 24;
+    var minutes = parseInt(totalSeconds / 60) % 60;
+    var seconds = totalSeconds % 60;
+    var result = (hours < 10 ? "0" + hours : hours)
+        + ":" + (minutes < 10 ? "0" + minutes : minutes)
+        + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
+    return result;
 }
