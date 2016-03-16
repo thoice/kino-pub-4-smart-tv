@@ -15,6 +15,7 @@ Info = {
             log('Info.load failed', 'error');
         }
         var itemId = srcL.dataset.id;
+        // todo add true for find focus if needed
         Main.showScene(Info.id);
         // todo Main.showSpinner('Роботы работают еще усерднее и сейчас мы узнаем подробности');
         Main.ajax({
@@ -149,6 +150,7 @@ Info = {
         row.classList.add('info-video-row');
         row.classList.add('kbdbl-row');
         row.classList.add('kbdbl-y-' + index);
+        index = index || 0;
         if (index === 0) {
             row.classList.add('kbdbl-focused');
         }

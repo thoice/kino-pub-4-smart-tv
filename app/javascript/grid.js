@@ -23,8 +23,6 @@ Grid = {
         document.body.addEventListener('ajax:grid_get_items', Grid.loadPage, false);
         document.body.addEventListener('ajax:grid_get_items:success', Grid.loadPageSuccess, false);
         document.body.addEventListener('grid:pager:focus', Grid.pagerFocus, false);
-
-        document.body.addEventListener('kbdbl:onfocus', Grid.gridItemFocus, false);
     },
     initParameters: function () {
         Grid.parameters = JSON.parse(JSON.stringify(Grid.availParameters));
@@ -84,8 +82,7 @@ Grid = {
             }
             gridContainerL.appendChild(rowL);
         }
-        var focusedL = followClassCrumbs('kbdbl-focused');
-        focusedL.focus();
+        Main.showScene(['grid_wrapper', 'menu_wrapper'], true);
     },
     getPagersInfoFromResponse: function (response) {
         var pagers = {};
@@ -94,7 +91,7 @@ Grid = {
         if (pagination['current'] !== 1) {
             pagers.left = pagination['current'] - 1;
         }
-        // TODO add dynamic perpage instead of hardcoded 10?
+
         if (pagination['current'] !== pagination['total'] && response.items && response.items.length <= pagination['perpage']) {
             pagers.right = pagination['current'] + 1;
         }
@@ -166,7 +163,7 @@ Grid = {
         gridItemWrapper.appendChild(gridItem);
         return gridItemWrapper;
     },
-    gridItemFocus: function (e) {
+    /*gridItemFocus: function (e) {
         var headerL = document.querySelector('#header');
         var updateWith = '';
         var wrapper = e.l;
@@ -176,7 +173,7 @@ Grid = {
                 updateWith = item.dataset.title;
         }
         widgetAPI.putInnerHTML(headerL, updateWith);
-    },
+    },*/
     pagerFocus: function (e) {
         log('grid:pager:focus in Grid.pagerFocus');
         if (e && e.l && e.l.dataset && e.l.dataset.pagetogo) {

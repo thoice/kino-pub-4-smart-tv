@@ -48,6 +48,12 @@
     background-color: #44505a;
 }
 
+#info_videos {
+    position: relative; /* needed so l.offsetTop will be relative to #info_videos and not to page top */
+    height: 570px;
+    overflow: hidden; /* needed for scrollTop to scroll */
+}
+
 .info-video-row {
     width: 100%;
 }

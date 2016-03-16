@@ -1,6 +1,3 @@
-/*
-todo maybe replace focus children traversal with document.body.querySelector('.kbdbl-focused .kbdbl-focused .kbdbl-focused .kbdbl-focused .kbdbl-focused .kbdbl-focused')
-*/
 Keyboardable = {
     init: function() {
         document.body.addEventListener('kbdbl:needfocus', Keyboardable.findFocus, false);
@@ -26,23 +23,15 @@ Keyboardable = {
         } else if (e.keyCode === TvKeyCode.KEY_DOWN) { // down
             y = 1;
         }
-        l = Keyboardable.findLToFocus(l, x, y);
+        var focusableL = Keyboardable.findLToFocus(l, x, y);
 
-        if (!l) {
+        if (!focusableL) {
             log('Keyboardable.navigate cannot find element to focus');
             return;
         }
-        var event;
-        if(l.dataset['onFocusEvent']) {
-            event = new Event(l.dataset['onFocusEvent']);
-            event.l = l;
-            document.body.dispatchEvent(event);
-        } else if (l) {
-            l.focus();
-            event = new Event('kbdbl:onfocus');
-            event.l = l;
-            document.body.dispatchEvent(event);
-        }
+        var event = new Event('main:find_and_focus');
+        event.l = focusableL;
+        document.body.dispatchEvent(event);
     },
     findLToFocus: function(srcL, x, y) {
         var lToFocus = null;

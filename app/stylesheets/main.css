@@ -55,3 +55,30 @@ div             { box-sizing: border-box; }
     background-color: #ffffc8;
     color: #2f373e;
 }
+
+#modal_wrapper {
+    z-index: 1;
+    background: radial-gradient(ellipse at center, #26367f 0%, #2f373e 99%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: table;
+}
+
+#modal_wrapper.hidden {
+    display: none;
+}
+
+#modal_content_wrapper {
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 50%;
+}
+
+#modal_content {
+    width: 800px;
+    margin-left: -400px;
+}

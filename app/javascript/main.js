@@ -8,33 +8,21 @@ Main = {
         log('Main.onLoad');
         Main.apier = Kinopub;
         document.body.dispatchEvent(new Event('auth:init:call'));
-        //var event = new Event('kbdbl:needfocus');
-        //document.body.dispatchEvent(event);
         document.body.addEventListener('keydown', Main.onKeyDown, false);
+        document.body.addEventListener('main:find_and_focus', Main.fishForFocus, false);
     },
     onKeyDown: function (e) {
         var keyCode = e.keyCode;
-        // TODO get actual codes
-        /*
-         37 - left
-         38 - up
-         39 - right
-         40 - down
-         13 - enter
-         */
-        log(keyCode);
+        log('Key pressed:' + keyCode);
+        
         var event;
-        var l = document.activeElement || followClassCrumbs('kbdbl-focused');
-        if (!l) {
-            // todo Error. Focus not found
-        }
-        l.focus();
+        var l = Main.fishForFocus();
+        
         if (keyCode === TvKeyCode.KEY_LEFT || keyCode === TvKeyCode.KEY_RIGHT
             || keyCode === TvKeyCode.KEY_UP || keyCode === TvKeyCode.KEY_DOWN
         ) {
             event = new Event('kbdbl:navigate');
             event.keyCode = keyCode;
-
         } else if (keyCode === TvKeyCode.KEY_ENTER && l.dataset['onKeyEnter'] !== undefined) {
             event = new Event(l.dataset['onKeyEnter']);
             event.l = l;
@@ -117,17 +105,14 @@ Main = {
     addScene: function (id, scene) {
         Main.scenes[id] = scene;
     },
-    showScene: function (ids) {
-        if (ids.indexOf === undefined) {
+    showScene: function (ids, fishForFocusAfter) {
+        if (ids.constructor !== Array) {
             ids = [ids];
         }
 
         var scenes = document.querySelectorAll('.scene');
         var scene;
-        for (var s in scenes) {
-            if (!scenes.hasOwnProperty(s)) {
-                continue;
-            }
+        for (var s = 0; s < scenes.length; s++) {
             scene = scenes[s];
             if (ids.indexOf(scene.id) < 0) {
                 scene.classList.add('hidden');
@@ -135,5 +120,53 @@ Main = {
                 scene.classList.remove('hidden');
             }
         }
+
+        if (fishForFocusAfter) {
+            Main.fishForFocus();
+        }
+    },
+    showModal: function (text, buttonLabel, buttonEventName) {
+        // todo store header into focusStack?
+        var modalWrapperId = 'modal_wrapper';
+        var modalWrapperL = document.getElementById(modalWrapperId);
+        widgetAPI.putInnerHTML(modalWrapperL, '');
+        var modalContentWrapperL = document.createElement('div');
+        modalContentWrapperL.id = 'modal_content_wrapper';
+        modalContentWrapperL.classList.add('kbdbl-focused');
+        var modalContent = document.createElement('div');
+        modalContent.id = 'modal_content';
+        modalContent.classList.add('kbdbl-focused');
+        widgetAPI.putInnerHTML(modalContent, text);
+
+        if (buttonLabel !== undefined) {
+            var modalB = document.createElement('button');
+            var modalBSpan = document.createElement('span');
+            modalBSpan.textContent = buttonLabel;
+            modalB.classList.add('button');
+            modalB.classList.add('kbdbl-focused');
+            modalB.dataset.onKeyEnter = buttonEventName;
+            modalB.appendChild(modalBSpan);
+            modalContent.appendChild(modalB);
+        }
+        modalContentWrapperL.appendChild(modalContent);
+        modalWrapperL.appendChild(modalContentWrapperL);
+        Main.showScene(modalWrapperId, true);
+    },
+    fishForFocus: function (e) {
+        var l;
+        if (e && e.l) {
+            l = e.l;
+        } else {
+            l = followClassCrumbs('kbdbl-focused');
+        }
+
+        if (l.dataset['onFocusEvent']) {
+            event = new Event(l.dataset['onFocusEvent']);
+            event.l = l;
+            document.body.dispatchEvent(event);
+        } else {
+            l.focus();
+        }
+        return l;
     }
 };
