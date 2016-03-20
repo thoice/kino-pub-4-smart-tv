@@ -1,22 +1,26 @@
+// todo go to next episode
+
 widgetAPI = new Common.API.Widget();
 tvKeyValue = new Common.API.TVKeyValue() || {};
 
 Main = {
     scenes: {},
+    activeId: null,
+    focusStack: [],
     onLoad: function () {
         widgetAPI.sendReadyEvent();
         log('Main.onLoad');
         Main.apier = Kinopub;
         document.body.dispatchEvent(new Event('auth:init:call'));
         document.body.addEventListener('keydown', Main.onKeyDown, false);
-        document.body.addEventListener('main:find_and_focus', Main.fishForFocus, false);
+        document.body.addEventListener('main:focus', Main.fishForFocus, false);
     },
     onKeyDown: function (e) {
         var keyCode = e.keyCode;
         log('Key pressed:' + keyCode);
         
         var event;
-        var l = Main.fishForFocus();
+        var l = Main.fishForFocus({l: e.srcElement});
         
         if (keyCode === TvKeyCode.KEY_LEFT || keyCode === TvKeyCode.KEY_RIGHT
             || keyCode === TvKeyCode.KEY_UP || keyCode === TvKeyCode.KEY_DOWN
@@ -26,6 +30,9 @@ Main = {
         } else if (keyCode === TvKeyCode.KEY_ENTER && l.dataset['onKeyEnter'] !== undefined) {
             event = new Event(l.dataset['onKeyEnter']);
             event.l = l;
+        } else if (keyCode === TvKeyCode.KEY_RETURN) {
+            Main.showScene(null, null, true);
+            e.preventDefault();
         }
 
         if (event) {
@@ -105,25 +112,54 @@ Main = {
     addScene: function (id, scene) {
         Main.scenes[id] = scene;
     },
-    showScene: function (ids, fishForFocusAfter) {
-        if (ids.constructor !== Array) {
-            ids = [ids];
+    showScene: function (sceneId, fishForFocusAfter, popFromStack) {
+        var focusableL = null;
+        if (popFromStack) {
+            var sceneData = Main.focusStack.pop();
+            if (sceneData) {
+                sceneId = sceneData['id'] || sceneId;
+                focusableL = sceneData['activeL'] || null;
+            }
+        }
+        var sceneIds = [sceneId];
+        if (Main.scenes[sceneId] !== undefined && Main.scenes[sceneId]['dependentId'] !== undefined) {
+            sceneIds.push(Main.scenes[sceneId]['dependentId']);
         }
 
-        var scenes = document.querySelectorAll('.scene');
-        var scene;
-        for (var s = 0; s < scenes.length; s++) {
-            scene = scenes[s];
-            if (ids.indexOf(scene.id) < 0) {
-                scene.classList.add('hidden');
+        if (!popFromStack && Main.activeId) {
+            var currentSceneData = {
+                id: Main.activeId,
+                activeL: document.activeElement
+            };
+            Main.focusStack.push(currentSceneData);
+        }
+
+        var sceneLs = document.querySelectorAll('.scene');
+        var sceneL, scene;
+        for (var s = 0; s < sceneLs.length; s++) {
+            sceneL = sceneLs[s];
+            scene = Main.scenes[sceneL.id] || {};
+            if (sceneIds.indexOf(sceneL.id) < 0) {
+                sceneL.classList.add('hidden');
+                if (scene.onHide !== undefined) {
+                    scene.onHide();
+                }
             } else {
-                scene.classList.remove('hidden');
+                sceneL.classList.remove('hidden');
+                if (scene.onShow !== undefined) {
+                    scene.onShow();
+                }
             }
         }
 
-        if (fishForFocusAfter) {
-            Main.fishForFocus();
+        if (fishForFocusAfter || popFromStack) {
+            var o = {};
+            if (popFromStack) {
+                o = {l:focusableL};
+            }
+            Main.fishForFocus(o);
         }
+        Main.activeId = sceneId;
     },
     showModal: function (text, buttonLabel, buttonEventName) {
         // todo store header into focusStack?
@@ -155,7 +191,11 @@ Main = {
     fishForFocus: function (e) {
         var l;
         if (e && e.l) {
-            l = e.l;
+            if (e.fishForFocusInL === true) {
+                l = followClassCrumbs('kbdbl-focused', e.l);
+            } else {
+                l = e.l;
+            }
         } else {
             l = followClassCrumbs('kbdbl-focused');
         }
@@ -165,6 +205,11 @@ Main = {
             event.l = l;
             document.body.dispatchEvent(event);
         } else {
+            var title = '';
+            if (l.firstElementChild && l.firstElementChild.dataset && l.firstElementChild.dataset['title']) {
+                title = l.firstElementChild.dataset['title'];
+            }
+            widgetAPI.putInnerHTML(document.getElementById('header'), title);
             l.focus();
         }
         return l;

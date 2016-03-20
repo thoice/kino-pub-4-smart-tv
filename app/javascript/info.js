@@ -1,12 +1,14 @@
 Info = {
     id: 'info_wrapper',
     l: null,
+    title: '',
     init: function () {
         log('Info.init');
         Info.l = document.querySelector('#' + Info.id);
         Main.addScene(Info.id, Info);
         document.body.addEventListener('info:load', Info.load, false);
         document.body.addEventListener('ajax:item_get_info:success', Info.loadSuccess, false);
+        document.body.addEventListener('info:tab:activate', Info.activateTab, false);
     },
     load: function (e) {
         log('Info.load');
@@ -14,8 +16,10 @@ Info = {
         if (!srcL || !srcL.dataset || !srcL.dataset.id) {
             log('Info.load failed', 'error');
         }
+        Info.title = '';
         var itemId = srcL.dataset.id;
         // todo add true for find focus if needed
+        // todo or show spinner instead and replace it with showScene in the end of success cb
         Main.showScene(Info.id);
         // todo Main.showSpinner('Роботы работают еще усерднее и сейчас мы узнаем подробности');
         Main.ajax({
@@ -35,6 +39,7 @@ Info = {
         var videosElement = document.querySelector('#info_wrapper #info_videos');
         widgetAPI.putInnerHTML(descriptionElement, '');
         widgetAPI.putInnerHTML(videosElement, '');
+        Info.title = item.title;
 
         var posterImg = '';
         if (item['posters'] !== undefined) {
@@ -92,10 +97,7 @@ Info = {
             detailsWrapper.appendChild(infoRow);
         }
         descriptionElement.appendChild(detailsWrapper);
-        var focus = followClassCrumbs('kbdbl-focused');
-        if (focus) {
-            focus.focus();
-        }
+        document.body.dispatchEvent(new Event('main:focus'));
         // TODO IMDB link item.imdb
         // TODO kinopoisk link item.kinopoisk
     },
@@ -160,6 +162,7 @@ Info = {
         }
 
         var file;
+        var rowItemTitle = [Info.title,rowTitle ? (' | ' + rowTitle) : ''].join('');
         for (var f = 0; f < rowData['files'].length; f++) {
             file = rowData['files'][f];
             var button = document.createElement('button');
@@ -174,6 +177,7 @@ Info = {
             button.dataset.onKeyEnter = 'player:video:play';
             var btnText = document.createElement('span');
             btnText.textContent = file['quality'];
+            btnText.dataset['title'] = rowItemTitle;
             button.appendChild(btnText);
             button.dataset.url = file['url']['http'];
             button.dataset.duration = rowData['duration'];
@@ -209,6 +213,18 @@ Info = {
         widgetAPI.putInnerHTML(textSpan, text);
         label.appendChild(textSpan);
         return label;
+    },
+    activateTab: function(e) {
+        var l = e.l;
+        var oldTab= l.parentNode.querySelector('.info-tab-header.active');
+        if (oldTab) {
+            oldTab.classList.remove('active');
+        }
+        l.classList.add('active');
+        var event = new Event('main:focus');
+        event.l = l.nextElementSibling;
+        event.fishForFocusInL = true;
+        document.body.dispatchEvent(event);
     }
 };
 

@@ -9,7 +9,7 @@ Grid = {
     },
     parameters: {},
     id: 'grid_wrapper',
-    dependantScene: 'info_wrapper',
+    dependentId: 'menu_wrapper',
     l: null,
     init: function () {
         // document.body.removeEventListener('auth:access_token:success');
@@ -82,7 +82,7 @@ Grid = {
             }
             gridContainerL.appendChild(rowL);
         }
-        Main.showScene(['grid_wrapper', 'menu_wrapper'], true);
+        Main.showScene('grid_wrapper', true);
     },
     getPagersInfoFromResponse: function (response) {
         var pagers = {};

@@ -26,13 +26,15 @@ div             { box-sizing: border-box; }
     display: table;
     padding-left: 13px;
     font-size: 20pt;
+    z-index: 2;
+    position: relative;
 }
 
 #header         {
     display: table-cell;
     vertical-align: middle;
     font-family: OpenSans-CondLight, Helvetica, sans-serif;
-    font-weight: 300;
+    font-weight: 600;
     line-height: 25px;
 }
 

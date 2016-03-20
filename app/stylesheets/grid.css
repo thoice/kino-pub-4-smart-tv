@@ -61,7 +61,7 @@
 .grid-item {
     width: 200px;
     height: 250px;
-    background-position: -7px -7px;
+    background-size: cover;
     position: relative; /* needed for .grid-mini-info to be absolute */
 }
 
